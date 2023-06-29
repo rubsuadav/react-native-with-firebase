@@ -3,10 +3,7 @@ import { NavigationProp } from "@react-navigation/native";
 import React from "react";
 import { FIREBASE_AUTH } from "../../firebaseConfig";
 
-interface RouterProps {
-  navigation: NavigationProp<any, any>;
-}
-export default function List({ navigation }: RouterProps) {
+export default function List({ navigation }) {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Button
