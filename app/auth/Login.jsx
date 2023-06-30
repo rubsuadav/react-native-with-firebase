@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   Button,
   KeyboardAvoidingView,
+  Text,
 } from "react-native";
 import React, { useState } from "react";
 import { FIREBASE_AUTH } from "../../firebaseConfig";
@@ -51,6 +52,7 @@ export default function Login() {
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView behavior="padding">
+        <Text style={{ fontSize: 30, marginBottom: 20 }}>Login</Text>
         <TextInput
           placeholder="email"
           autoCapitalize="none"
