@@ -7,10 +7,12 @@ import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyDXCtpL4a64zIlwAQv-Syj8IBWEYy0LsWo",
   authDomain: "prueba-cb62f.firebaseapp.com",
+  databaseURL:
+    "https://prueba-cb62f-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "prueba-cb62f",
   storageBucket: "prueba-cb62f.appspot.com",
   messagingSenderId: "903959212753",
-  appId: "1:903959212753:web:17d52c5b1b01a32bad4bf0",
+  appId: "1:903959212753:web:97336278b40b7e94ad4bf0",
 };
 
 // Initialize Firebase
