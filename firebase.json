@@ -2,6 +2,7 @@
   "hosting": {
     "public": "web-build",
     "ignore": [
+      "web-build/**/.*",
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
