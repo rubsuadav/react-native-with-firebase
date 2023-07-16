@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  Alert,
+  useWindowDimensions,
+} from "react-native";
 import tw from "twrnc";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
@@ -15,6 +22,7 @@ function UserAdminScreen() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [nameError, setNameError] = useState("");
+  const [roleError, setRoleError] = useState("");
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
@@ -23,6 +31,7 @@ function UserAdminScreen() {
     setEmailError("");
     setPasswordError("");
     setNameError("");
+    setRoleError("");
 
     if (name.length < 6) {
       setNameError("El nombre debe tener al menos 6 caracteres");
@@ -31,6 +40,16 @@ function UserAdminScreen() {
 
     if (password.length === 0) {
       setPasswordError("La contraseña no puede estar vacía");
+      return;
+    }
+
+    if (!email) {
+      setEmailError("El correo electrónico no puede estar vacío");
+      return;
+    }
+
+    if (!selectedRole) {
+      setRoleError("Debes seleccionar un rol");
       return;
     }
 
@@ -56,13 +75,17 @@ function UserAdminScreen() {
     }
   };
 
+  const { width, height } = useWindowDimensions();
+
   return (
-    <View style={tw`flex-1 p-20`}>
-      <Text style={tw`text-2xl font-bold mb-10`}>
+    <View style={[tw`flex-1 p-20 bg-gray-100`, { width, height }]}>
+      <Text style={tw`text-2xl font-bold mb-10 text-center`}>
         Administración de Usuarios
       </Text>
-      <View style={tw`mb-10`}>
-        <Text style={tw`font-bold mb-2`}>Crear Usuario</Text>
+      <View style={tw`mb-10 bg-white rounded-lg shadow-lg p-5`}>
+        <Text style={tw`font-bold mb-2 text-lg text-center`}>
+          Crear Usuario
+        </Text>
         <TextInput
           placeholder="Nombre"
           value={name}
@@ -91,11 +114,9 @@ function UserAdminScreen() {
         {passwordError ? (
           <Text style={tw`text-red-500 mb-2`}>{passwordError}</Text>
         ) : null}
-        {!selectedRole && (
-          <Text style={tw`text-red-500`}>Please select a role</Text>
-        )}
+        {!selectedRole && <Text style={tw`text-red-500`}>{roleError}</Text>}
         <RoleList onSelectRole={setSelectedRole} />
-        <Button title="Crear" onPress={handleCreate} />
+        <Button title="Crear" onPress={handleCreate} color="#FF6B6B" />
       </View>
     </View>
   );

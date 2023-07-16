@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Picker } from "react-native";
+import { View } from "react-native";
 import tw from "twrnc";
 import { FIREBASE_DB } from "../firebaseConfig";
 import {
@@ -9,6 +9,7 @@ import {
   onSnapshot,
   getDoc,
 } from "firebase/firestore";
+import { Picker } from "@react-native-picker/picker";
 
 function RoleList({ onSelectRole }) {
   const [roles, setRoles] = useState([]);
@@ -52,11 +53,22 @@ function RoleList({ onSelectRole }) {
           setSelectedRole(itemValue);
           onSelectRole(itemValue);
         }}
-        style={tw`mb-2 border border-gray-400 rounded`}
+        mode="dropdown"
+        dropdownIconColor="#808080"
+        enabled={true}
       >
-        <Picker.Item label="Select a role" value="Select a role" />
+        <Picker.Item
+          label="Selecciona un rol"
+          value=""
+          style={tw`bg-gray-200`}
+        />
         {roles.map((role) => (
-          <Picker.Item key={role.id} label={role.name} value={role.id} />
+          <Picker.Item
+            key={role.id}
+            label={role.name}
+            value={role.id}
+            style={tw`bg-gray-200`}
+          />
         ))}
       </Picker>
     </View>
