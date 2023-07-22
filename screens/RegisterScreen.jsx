@@ -5,9 +5,11 @@ import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 
 //local imports
-import { FIREBASE_AUTH } from "../firebaseConfig";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function RegisterScreen() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -27,6 +29,12 @@ export default function RegisterScreen() {
         email,
         password
       );
+      const user = userCredential.user;
+      await setDoc(doc(FIREBASE_DB, "users", user.uid), {
+        name: name,
+        email: email,
+        roleId: "user",
+      });
       navigation.navigate("Login");
     } catch (error) {
       switch (error.code) {
@@ -48,6 +56,12 @@ export default function RegisterScreen() {
     <View style={tw`flex-1 items-center justify-center bg-white`}>
       <Text style={tw`text-3xl font-bold mb-8`}>Registrarse</Text>
       {error !== "" && <Text style={tw`text-red-500 mb-8`}>{error}</Text>}
+      <TextInput
+        placeholder="Nombre"
+        value={name}
+        onChangeText={(text) => setName(text)}
+        style={tw`border border-gray-400 rounded-md w-80 px-4 py-2 mb-4`}
+      />
       <TextInput
         placeholder="Correo electrónico"
         value={email}
