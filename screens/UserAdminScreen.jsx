@@ -8,7 +8,6 @@ import { useNavigation } from "@react-navigation/native";
 //local imports
 import { FIREBASE_AUTH, FIREBASE_DB } from "../firebaseConfig";
 import UserForm from "../components/UserForm";
-import { handleRedirect } from "../utils/Redirections";
 import { validate } from "../utils/Validators";
 
 function UserAdminScreen() {
@@ -53,7 +52,6 @@ function UserAdminScreen() {
         email: email,
         roleId: selectedRole,
       });
-      handleRedirect({ navigation, user });
     } catch (error) {
       switch (error.code) {
         case "auth/email-already-in-use":
