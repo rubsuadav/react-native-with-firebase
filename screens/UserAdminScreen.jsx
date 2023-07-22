@@ -1,17 +1,13 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  Alert,
-  useWindowDimensions,
-} from "react-native";
+import { View, Text, useWindowDimensions } from "react-native";
 import tw from "twrnc";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import RoleList from "../components/RoleList";
+import { useNavigation } from "@react-navigation/native";
+
+import UserForm from "../components/UserForm";
+import { handleRedirect } from "../utils/Redirections";
 
 function UserAdminScreen() {
   const [name, setName] = useState("");
@@ -27,7 +23,9 @@ function UserAdminScreen() {
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
 
-  const handleCreate = async () => {
+  const navigation = useNavigation();
+
+  async function handleCreate() {
     setEmailError("");
     setPasswordError("");
     setNameError("");
@@ -65,15 +63,23 @@ function UserAdminScreen() {
         email: email,
         roleId: selectedRole,
       });
-      Alert.alert("Usuario creado exitosamente");
+      handleRedirect({ navigation, user });
     } catch (error) {
-      if (error.code === "auth/invalid-email") {
-        setEmailError("El correo electrónico es inválido");
-      } else if (error.code === "auth/weak-password") {
-        setPasswordError("La contraseña es débil");
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          setEmailError("El correo electrónico ya está en uso");
+          break;
+        case "auth/invalid-email":
+          setEmailError("El correo electrónico es inválido");
+          break;
+        case "auth/weak-password":
+          setPasswordError("La contraseña es débil");
+          break;
+        default:
+          break;
       }
     }
-  };
+  }
 
   const { width, height } = useWindowDimensions();
 
@@ -82,42 +88,21 @@ function UserAdminScreen() {
       <Text style={tw`text-2xl font-bold mb-10 text-center`}>
         Administración de Usuarios
       </Text>
-      <View style={tw`mb-10 bg-white rounded-lg shadow-lg p-5`}>
-        <Text style={tw`font-bold mb-2 text-lg text-center`}>
-          Crear Usuario
-        </Text>
-        <TextInput
-          placeholder="Nombre"
-          value={name}
-          onChangeText={setName}
-          style={tw`mb-2 p-2 border border-gray-400 rounded`}
-        />
-        {nameError ? (
-          <Text style={tw`text-red-500 mb-2`}>{nameError}</Text>
-        ) : null}
-        <TextInput
-          placeholder="Correo Electrónico"
-          value={email}
-          onChangeText={setEmail}
-          style={tw`mb-2 p-2 border border-gray-400 rounded`}
-        />
-        {emailError ? (
-          <Text style={tw`text-red-500 mb-2`}>{emailError}</Text>
-        ) : null}
-        <TextInput
-          placeholder="Contraseña"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={true}
-          style={tw`mb-2 p-2 border border-gray-400 rounded`}
-        />
-        {passwordError ? (
-          <Text style={tw`text-red-500 mb-2`}>{passwordError}</Text>
-        ) : null}
-        {!selectedRole && <Text style={tw`text-red-500`}>{roleError}</Text>}
-        <RoleList onSelectRole={setSelectedRole} />
-        <Button title="Crear" onPress={handleCreate} color="#FF6B6B" />
-      </View>
+      <UserForm
+        name={name}
+        setName={setName}
+        email={email}
+        setEmail={setEmail}
+        password={password}
+        setPassword={setPassword}
+        selectedRole={selectedRole}
+        setSelectedRole={setSelectedRole}
+        handleCreate={handleCreate}
+        nameError={nameError}
+        emailError={emailError}
+        passwordError={passwordError}
+        roleError={roleError}
+      />
     </View>
   );
 }

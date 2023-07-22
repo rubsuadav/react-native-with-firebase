@@ -1,46 +1,17 @@
-import { Text } from "react-native";
-
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 //local imports
 import UserAdminScreen from "./screens/UserAdminScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 
 export default function App() {
-  /*const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const unsubscribe = FIREBASE_AUTH.onAuthStateChanged(
-    (user) => {
-      setUser(user);
-      setLoading(false);
-    },
-    (error) => {
-      setError(error);
-      setLoading(false);
-    }
-  );
-
-  useEffect(() => {
-    unsubscribe();
-  }, []);
-
-  if (loading) {
-    return <Text>Loading...</Text>;
-  }
-
-  if (error) {
-    return <Text>Error: {error}</Text>;
-  }*/
-
-  /*if (user && user.uid === "ADMIN_UID_HERE") {
-    return (
-      <View style={tw`p-4 android:pt-2 bg-white dark:bg-black`}>
-        <UserAdminScreen />
-      </View>
-    );
-  } else {*/
+  const Stack = createStackNavigator();
   return (
-    <Text>
-      <UserAdminScreen />
-    </Text>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="UserAdmin" component={UserAdminScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
