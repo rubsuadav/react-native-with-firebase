@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { View, Text, useWindowDimensions } from "react-native";
 import tw from "twrnc";
-import { FIREBASE_AUTH, FIREBASE_DB } from "../firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 
+//local imports
+import { FIREBASE_AUTH, FIREBASE_DB } from "../firebaseConfig";
 import UserForm from "../components/UserForm";
 import { handleRedirect } from "../utils/Redirections";
+import { validate } from "../utils/Validators";
 
 function UserAdminScreen() {
   const [name, setName] = useState("");
@@ -30,24 +32,12 @@ function UserAdminScreen() {
     setPasswordError("");
     setNameError("");
     setRoleError("");
-
-    if (name.length < 6) {
-      setNameError("El nombre debe tener al menos 6 caracteres");
-      return;
-    }
-
-    if (password.length === 0) {
-      setPasswordError("La contraseña no puede estar vacía");
-      return;
-    }
-
-    if (!email) {
-      setEmailError("El correo electrónico no puede estar vacío");
-      return;
-    }
-
-    if (!selectedRole) {
-      setRoleError("Debes seleccionar un rol");
+    const val = validate({ name, email, password, selectedRole });
+    if (Object.keys(val).length > 0) {
+      setEmailError(val.emailError);
+      setPasswordError(val.passwordError);
+      setNameError(val.nameError);
+      setRoleError(val.roleError);
       return;
     }
 
