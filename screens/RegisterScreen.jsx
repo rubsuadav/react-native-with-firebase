@@ -12,6 +12,7 @@ export default function RegisterScreen() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [lastName, setLastName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -32,6 +33,7 @@ export default function RegisterScreen() {
       const user = userCredential.user;
       await setDoc(doc(FIREBASE_DB, "users", user.uid), {
         name: name,
+        lastName: lastName,
         email: email,
         roleId: "user",
       });
@@ -48,6 +50,7 @@ export default function RegisterScreen() {
           setError("La contraseña es demasiado débil");
           break;
         default:
+          setError("Ocurrió un error al registrar el usuario");
           break;
       }
     }
@@ -60,6 +63,12 @@ export default function RegisterScreen() {
         placeholder="Nombre"
         value={name}
         onChangeText={(text) => setName(text)}
+        style={tw`border border-gray-400 rounded-md w-80 px-4 py-2 mb-4`}
+      />
+      <TextInput
+        placeholder="Apellidos"
+        value={lastName}
+        onChangeText={(text) => setLastName(text)}
         style={tw`border border-gray-400 rounded-md w-80 px-4 py-2 mb-4`}
       />
       <TextInput
