@@ -20,37 +20,45 @@ export default function ProfileScreen() {
     fetchData();
   }, []);
 
+  if (!user) {
+    return (
+      <View
+        style={tw`flex-1 items-center justify-center bg-opacity-80 bg-gray-900`}
+      >
+        <Text style={tw`text-3xl font-bold text-white mb-8`}>Cargando...</Text>
+      </View>
+    );
+  }
+
   return (
     <ImageBackground source={backgroundImage} style={tw`flex-1`}>
       <View
         style={tw`flex-1 items-center justify-center bg-opacity-80 bg-gray-900`}
       >
-        {user && (
-          <>
-            <Text style={tw`text-3xl font-bold text-white mb-8`}>
-              Perfil de {user.displayName}
-            </Text>
-            {error !== "" && <Text style={tw`text-red-500 mb-8`}>{error}</Text>}
-            <TextInput
-              placeholder="Nombre completo"
-              value={user.displayName}
-              style={tw`border border-gray-400 rounded-md w-80 px-4 py-2 mb-4 bg-white`}
-              editable={false}
+        <>
+          <Text style={tw`text-3xl font-bold text-white mb-8`}>
+            Perfil de {user.displayName}
+          </Text>
+          {error !== "" && <Text style={tw`text-red-500 mb-8`}>{error}</Text>}
+          <TextInput
+            placeholder="Nombre completo"
+            value={user.displayName}
+            style={tw`border border-gray-400 rounded-md w-80 px-4 py-2 mb-4 bg-white`}
+            editable={false}
+          />
+          <TextInput
+            placeholder="Correo electrónico"
+            value={user.email}
+            style={tw`border border-gray-400 rounded-md w-80 px-4 py-2 mb-4 bg-white`}
+            editable={false}
+          />
+          <View style={tw`flex-row justify-between w-80`}>
+            <Button
+              title="Cerrar sesión"
+              onPress={() => handleLogout({ navigation, setError })}
             />
-            <TextInput
-              placeholder="Correo electrónico"
-              value={user.email}
-              style={tw`border border-gray-400 rounded-md w-80 px-4 py-2 mb-4 bg-white`}
-              editable={false}
-            />
-            <View style={tw`flex-row justify-between w-80`}>
-              <Button
-                title="Cerrar sesión"
-                onPress={() => handleLogout({ navigation, setError })}
-              />
-            </View>
-          </>
-        )}
+          </View>
+        </>
       </View>
     </ImageBackground>
   );

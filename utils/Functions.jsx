@@ -15,7 +15,10 @@ export async function getUserProfile({ setError, setUser }) {
       const docSnap = await getDoc(userRef);
       switch (docSnap.exists()) {
         case true:
-          setUser(docSnap.data());
+          const name = docSnap.data().name;
+          const lastName = docSnap.data().lastName;
+          const displayName = `${name} ${lastName}`;
+          setUser({ ...docSnap.data(), displayName });
           break;
         case false:
           setError("No se encontró el usuario");
