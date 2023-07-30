@@ -14,7 +14,7 @@ jobs:
       - run: npm ci && npm run predeploy
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          repoToken: '${{ secrets.TOKEN_GITHUB }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PRUEBA_CB62F }}'
           channelId: live
           projectId: prueba-cb62f
