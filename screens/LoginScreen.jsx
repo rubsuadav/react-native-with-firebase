@@ -6,6 +6,7 @@ import {
   Button,
   TouchableOpacity,
   ImageBackground,
+  Platform,
 } from "react-native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import tw from "twrnc";
@@ -13,9 +14,6 @@ import { useNavigation } from "@react-navigation/native";
 
 //local imports
 import { FIREBASE_AUTH } from "../firebaseConfig";
-import { handleRedirect } from "../utils/Redirections";
-
-// Importar la imagen de fondo
 import backgroundImage from "../assets/background.jpg";
 
 export default function LoginScreen() {
@@ -33,8 +31,17 @@ export default function LoginScreen() {
         password
       );
       const user = userCredential.user;
-      handleRedirect({ navigation, user });
-      localStorage.setItem("token", await user.getIdToken());
+      switch (Platform.OS) {
+        case "web":
+          localStorage.setItem("token", await user.getIdToken());
+          window.location.reload();
+          break;
+        case "android":
+          navigation.navigate("Profile");
+          break;
+        default:
+          break;
+      }
     } catch (error) {
       switch (error.code) {
         case "auth/invalid-email":

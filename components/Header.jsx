@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Platform } from "react-native";
 import tw from "twrnc";
 import { FIREBASE_AUTH } from "../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
@@ -11,8 +11,17 @@ export default function Header({ user }) {
   async function handleLogout() {
     try {
       await FIREBASE_AUTH.signOut();
-      localStorage.removeItem("token");
-      window.location.reload();
+      switch (Platform.OS) {
+        case "web":
+          localStorage.removeItem("token");
+          window.location.reload();
+          break;
+        case "android":
+          navigation.navigate("Login");
+          break;
+        default:
+          break;
+      }
     } catch (error) {
       switch (error.code) {
         case "auth/no-current-user":
