@@ -1,5 +1,4 @@
 import { doc, getDoc } from "firebase/firestore";
-import { signOut } from "firebase/auth";
 
 //local imports
 import { FIREBASE_AUTH, FIREBASE_DB } from "../firebaseConfig";
@@ -25,19 +24,5 @@ export async function getUserProfile({ setError, setUser }) {
           break;
       }
       break;
-  }
-}
-export async function handleLogout({ navigation, setError }) {
-  try {
-    await signOut(FIREBASE_AUTH);
-    navigation.navigate("Login");
-  } catch (error) {
-    switch (error.code) {
-      case "auth/user-not-found":
-        setError("El usuario no existe");
-        break;
-      default:
-        break;
-    }
   }
 }

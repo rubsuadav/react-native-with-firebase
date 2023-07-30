@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, useWindowDimensions } from "react-native";
+import { View, Text } from "react-native";
 import tw from "twrnc";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { useNavigation } from "@react-navigation/native";
 
 //local imports
 import { FIREBASE_AUTH, FIREBASE_DB } from "../firebaseConfig";
@@ -23,8 +22,6 @@ function UserAdminScreen() {
 
   const auth = FIREBASE_AUTH;
   const db = FIREBASE_DB;
-
-  const navigation = useNavigation();
 
   async function handleCreate() {
     setEmailError("");
@@ -69,10 +66,8 @@ function UserAdminScreen() {
     }
   }
 
-  const { width, height } = useWindowDimensions();
-
   return (
-    <View style={[tw`flex-1 p-20 bg-gray-100`, { width, height }]}>
+    <View style={tw`flex-1 p-20 bg-gray-100`}>
       <Text style={tw`text-2xl font-bold mb-10 text-center`}>
         Administración de Usuarios
       </Text>

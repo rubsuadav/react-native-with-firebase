@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, Button, ImageBackground } from "react-native";
+import { View, Text, TextInput, ImageBackground } from "react-native";
 import tw from "twrnc";
-import { useNavigation } from "@react-navigation/native";
 
 // Importar la imagen de fondo
 import backgroundImage from "../assets/background.jpg";
-import { getUserProfile, handleLogout } from "../utils/Functions";
+import { getUserProfile } from "../utils/Functions";
 
 export default function ProfileScreen() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
-
-  const navigation = useNavigation();
 
   useEffect(() => {
     async function fetchData() {
@@ -52,12 +49,7 @@ export default function ProfileScreen() {
             style={tw`border border-gray-400 rounded-md w-80 px-4 py-2 mb-4 bg-white`}
             editable={false}
           />
-          <View style={tw`flex-row justify-between w-80`}>
-            <Button
-              title="Cerrar sesión"
-              onPress={() => handleLogout({ navigation, setError })}
-            />
-          </View>
+          <View style={tw`flex-row justify-between w-80`}></View>
         </>
       </View>
     </ImageBackground>

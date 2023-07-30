@@ -34,6 +34,7 @@ export default function LoginScreen() {
       );
       const user = userCredential.user;
       handleRedirect({ navigation, user });
+      localStorage.setItem("token", await user.getIdToken());
     } catch (error) {
       switch (error.code) {
         case "auth/invalid-email":
