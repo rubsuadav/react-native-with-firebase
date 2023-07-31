@@ -1,4 +1,5 @@
 import { doc, getDoc } from "firebase/firestore";
+import Swal from "sweetalert2";
 
 //local imports
 import { FIREBASE_AUTH, FIREBASE_DB } from "../firebaseConfig";
@@ -25,4 +26,23 @@ export async function getUserProfile({ setError, setUser }) {
       }
       break;
   }
+}
+
+export async function showAutoLogoutAlert() {
+  let timerInterval;
+  await Swal.fire({
+    html: "La sesión se cerrará automáticamente en <b></b> milisegundos.",
+    timer: 1000,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading();
+      const b = Swal.getHtmlContainer().querySelector("b");
+      timerInterval = setInterval(() => {
+        b.textContent = Swal.getTimerLeft();
+      }, 100);
+    },
+    willClose: () => {
+      clearInterval(timerInterval);
+    },
+  });
 }

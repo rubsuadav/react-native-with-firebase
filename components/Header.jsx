@@ -6,35 +6,35 @@ import Swal from "sweetalert2";
 
 //local imports
 import { FIREBASE_AUTH } from "../firebaseConfig";
+import { showAutoLogoutAlert } from "../utils/Functions";
 
 export default function Header({ user }) {
   const [error, setError] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
   const navigation = useNavigation();
 
   async function handleLogout() {
+    setShowDropdown(false);
     try {
-      await FIREBASE_AUTH.signOut();
       switch (Platform.OS) {
         case "web":
-          localStorage.removeItem("token");
-          let timerInterval;
-          await Swal.fire({
-            html: "La sesión se cerrará automáticamente en <b></b> milisegundos.",
-            timer: 1000,
-            timerProgressBar: true,
-            didOpen: () => {
-              Swal.showLoading();
-              const b = Swal.getHtmlContainer().querySelector("b");
-              timerInterval = setInterval(() => {
-                b.textContent = Swal.getTimerLeft();
-              }, 100);
-            },
-            willClose: () => {
-              clearInterval(timerInterval);
-            },
+          const swal = await Swal.fire({
+            title: 'Quieres cerrar sesión?',
+            showDenyButton: true,
+            confirmButtonText: 'Sí',
           });
-          window.location.reload();
-          break;
+          switch (swal.isConfirmed) {
+            case true:
+              await showAutoLogoutAlert();
+              await FIREBASE_AUTH.signOut();
+              localStorage.removeItem("token");
+              window.location.reload();
+              break;
+            case false:
+              break;
+            default:
+              break;
+          }
         case "android":
           navigation.navigate("Login");
           break;
@@ -52,19 +52,39 @@ export default function Header({ user }) {
     }
   }
 
+  function handleProfile() {
+    setShowDropdown(false);
+    navigation.navigate("Profile");
+  }
+
   return (
     <View
-      style={tw`flex-row justify-between items-center bg-gray-900 h-20 px-4 border-b border-gray-800`}
+      style={[
+        tw`flex-row justify-between items-center bg-gray-900 px-4 border-b border-gray-800`,
+        showDropdown && tw`pb-15`
+      ]}
     >
       <Image
         source={require("../assets/logotipo.jpg")}
-        style={{ width: 100, height: 80 }}
+        style={tw`w-30 h-25`}
       />
       {error ? <Text style={tw`text-red-500`}>{error}</Text> : null}
       {user ? (
-        <TouchableOpacity onPress={handleLogout}>
-          <Text style={tw`ml-4 text-base text-white`}>Cerrar sesión</Text>
-        </TouchableOpacity>
+        <View style={tw`flex-row items-center relative`}>
+          <TouchableOpacity onPress={() => setShowDropdown(!showDropdown)} style={tw`mb-3`}>
+            <Text style={tw`text-base text-white`}>{user.displayName}</Text>
+          </TouchableOpacity>
+          {showDropdown && (
+            <View style={tw`absolute top-full right-0 bg-gray-900 rounded-md shadow-lg`}>
+              <TouchableOpacity onPress={handleLogout}>
+                <Text style={tw`block px-4 py-2 text-sm text-black bg-blue-400 mb-2`}>Cerrar sesión</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleProfile}>
+                <Text style={tw`block px-4 py-2 text-sm text-black bg-green-400`}>Ver perfil</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
       ) : (
         <View style={tw`flex-row`}>
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>
