@@ -10,6 +10,7 @@ import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import { FIREBASE_AUTH } from "./firebaseConfig";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -58,6 +59,7 @@ export default function App() {
             </>
           )}
         </Stack.Navigator>
+        <Footer />
       </View>
     </NavigationContainer>
   );
