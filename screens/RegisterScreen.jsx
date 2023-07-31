@@ -3,10 +3,11 @@ import { View, Text, TextInput, Button } from "react-native";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
+import { doc, setDoc } from "firebase/firestore";
 
 //local imports
 import { FIREBASE_AUTH, FIREBASE_DB } from "../firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
+import { validate } from "../utils/Validators";
 
 export default function RegisterScreen() {
   const [name, setName] = useState("");
@@ -19,8 +20,14 @@ export default function RegisterScreen() {
   const navigation = useNavigation();
 
   async function handleRegister() {
+    setError("");
     if (password !== confirmPassword) {
       setError("Las contraseñas no coinciden");
+      return;
+    }
+    const val = validate({ name, lastName, email, password, selectedRole: "user" });
+    if (Object.keys(val).length > 0) {
+      setError(val[Object.keys(val)[0]]);
       return;
     }
 

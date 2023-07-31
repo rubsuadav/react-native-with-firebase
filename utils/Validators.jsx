@@ -1,4 +1,4 @@
-export function validate({ name, email, password, selectedRole }) {
+export function validate({ name, lastName, email, password, selectedRole }) {
   const errors = {};
   switch (true) {
     case !name:
@@ -6,6 +6,12 @@ export function validate({ name, email, password, selectedRole }) {
       break;
     case name.length < 6:
       errors.nameError = "El nombre debe tener al menos 6 caracteres";
+      break;
+    case !lastName:
+      errors.lastNameError = "El apellido es requerido";
+      break;
+    case lastName.length < 6:
+      errors.lastNameError = "El apellido debe tener al menos 6 caracteres";
       break;
     case !email:
       errors.emailError = "El correo electrónico es requerido";
