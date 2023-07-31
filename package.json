@@ -23,6 +23,7 @@
     "react-dom": "18.2.0",
     "react-native": "0.71.8",
     "react-native-web": "~0.18.10",
+    "sweetalert2": "^11.7.20",
     "twrnc": "^3.6.2"
   },
   "devDependencies": {
