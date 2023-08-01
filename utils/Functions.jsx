@@ -29,6 +29,17 @@ export async function getUserProfile({ setError, setUser }) {
   }
 }
 
+export async function getUserRole({ user }) {
+  const userRef = doc(FIREBASE_DB, "users", user.uid);
+  const docSnap = await getDoc(userRef);
+  switch (docSnap.exists()) {
+    case true:
+      return docSnap.data().roleId;
+    case false:
+      return null;
+  }
+}
+
 //------------------------------------------------ALERTS------------------------------------------------
 
 //////////////////////////////////////////MOBILE///////////////////////////////
