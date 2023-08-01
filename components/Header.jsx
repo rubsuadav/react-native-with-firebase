@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Platform, Image } from "react-native";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
-import Swal from "sweetalert2";
 
 //local imports
-import { FIREBASE_AUTH } from "../firebaseConfig";
-import { showAutoLogoutAlert } from "../utils/Functions";
+import { shouldLogoutAlertMobile, shouldLogoutAlertWeb } from "../utils/Functions";
 
 export default function Header({ user }) {
   const [error, setError] = useState("");
@@ -18,25 +16,9 @@ export default function Header({ user }) {
     try {
       switch (Platform.OS) {
         case "web":
-          const swal = await Swal.fire({
-            title: 'Quieres cerrar sesión?',
-            showDenyButton: true,
-            confirmButtonText: 'Sí',
-          });
-          switch (swal.isConfirmed) {
-            case true:
-              await showAutoLogoutAlert();
-              await FIREBASE_AUTH.signOut();
-              localStorage.removeItem("token");
-              window.location.reload();
-              break;
-            case false:
-              break;
-            default:
-              break;
-          }
+          await shouldLogoutAlertWeb();
         case "android":
-          navigation.navigate("Login");
+          await shouldLogoutAlertMobile({ navigation });
           break;
         default:
           break;

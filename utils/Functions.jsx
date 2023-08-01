@@ -1,5 +1,6 @@
 import { doc, getDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
+import { Alert } from "react-native";
 
 //local imports
 import { FIREBASE_AUTH, FIREBASE_DB } from "../firebaseConfig";
@@ -28,7 +29,71 @@ export async function getUserProfile({ setError, setUser }) {
   }
 }
 
-export async function showAutoLogoutAlert() {
+//------------------------------------------------ALERTS------------------------------------------------
+
+//////////////////////////////////////////MOBILE///////////////////////////////
+
+export async function shouldLogoutAlertMobile({ navigation }) {
+  Alert.alert(
+    "Cerrar sesión",
+    "¿Quieres cerrar sesión?",
+    [
+      {
+        text: "Sí",
+        onPress: () => {
+          showAutoLogoutAlertMobile({ navigation });
+        },
+      },
+      {
+        text: "No",
+        onPress: () => { },
+        style: "cancel",
+      },
+    ],
+  );
+}
+
+function showAutoLogoutAlertMobile({ navigation }) {
+  let count = 10; // tiempo en segundos
+  const interval = 400; // intervalo de tiempo en milisegundos
+  const timer = setInterval(async () => {
+    count--;
+    if (count === 0) {
+      clearInterval(timer);
+      await FIREBASE_AUTH.signOut();
+      navigation.navigate("Login");
+    }
+    Alert.alert(
+      'Cerrando sesión',
+      `La sesión se cerrará automáticamente en ${count} segundos.`,
+      [{ onPress: () => clearInterval(timer) }],
+    );
+  }, interval);
+}
+
+//////////////////////////////////////////WEB///////////////////////////////
+
+export async function shouldLogoutAlertWeb() {
+  const swal = await Swal.fire({
+    title: 'Quieres cerrar sesión?',
+    showDenyButton: true,
+    confirmButtonText: 'Sí',
+  });
+  switch (swal.isConfirmed) {
+    case true:
+      await showAutoLogoutAlertWeb();
+      await FIREBASE_AUTH.signOut();
+      localStorage.removeItem("token");
+      window.location.reload();
+      break;
+    case false:
+      break;
+    default:
+      break;
+  }
+}
+
+async function showAutoLogoutAlertWeb() {
   let timerInterval;
   await Swal.fire({
     html: "La sesión se cerrará automáticamente en <b></b> milisegundos.",
