@@ -52,8 +52,8 @@ export default function Header({ user }) {
       />
       {error ? <Text style={tw`text-red-500`}>{error}</Text> : null}
       {user ? (
-        <View style={tw`flex-row items-center relative`}>
-          <TouchableOpacity onPress={() => setShowDropdown(!showDropdown)} style={tw`mb-3`}>
+        <View style={tw`flex-row items-center relative android:pb-8`}>
+          <TouchableOpacity onPress={() => setShowDropdown(!showDropdown)} style={tw`mb-3 android:pt-14 pb-3`}>
             <Text style={tw`text-base text-white`}>{user.displayName}</Text>
           </TouchableOpacity>
           {showDropdown && (
