@@ -20,7 +20,6 @@ export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
   const navigation = useNavigation();
 
   async function handleLogin() {
@@ -34,7 +33,6 @@ export default function LoginScreen() {
       switch (Platform.OS) {
         case "web":
           localStorage.setItem("token", await user.getIdToken());
-          window.location.reload();
           break;
         case "android":
           navigation.navigate("Profile");
