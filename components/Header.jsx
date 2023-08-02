@@ -57,31 +57,42 @@ export default function Header({ user }) {
     navigation.navigate("UserAdmin");
   }
 
+  function handleUpgradeUser() {
+    setShowDropdown(false);
+    console.warn("upgrade user");
+    navigation.navigate("UpgradeUser");
+  }
+
   return (
     <View
       style={[
         tw`flex-row justify-between items-center bg-gray-900 px-4 border-b border-gray-800`,
-        (showDropdown || showDropdownAdmin) && tw`pb-15`
+        (showDropdown || showDropdownAdmin) && tw`pb-28`
       ]}
     >
       <Image
         source={require("../assets/logotipo.jpg")}
-        style={tw`w-30 h-25`}
+        style={tw`w-30 h-25 right-5`}
       />
       {error ? <Text style={tw`text-red-500`}>{error}</Text> : null}
       {user ? (
         <View style={tw`flex-row items-center relative android:pb-8`}>
           <TouchableOpacity onPress={() => setShowDropdown(!showDropdown)} style={tw`mb-3 android:pt-14 pb-3`}>
-            <Text style={tw`text-base text-white`}>{user.displayName}</Text>
+            <Text style={tw`text-base text-white border border-blue-300`}>{user.displayName}</Text>
           </TouchableOpacity>
           {showDropdown && (
             <View style={tw`absolute top-full right-0 bg-gray-900 rounded-md shadow-lg`}>
               <TouchableOpacity onPress={handleLogout}>
-                <Text style={tw`block px-4 py-2 text-sm text-black bg-blue-400 mb-2`}>Cerrar sesión</Text>
+                <Text style={tw`px-4 py-2 text-base text-black bg-blue-400 mb-2`}>Cerrar sesión</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={handleProfile}>
-                <Text style={tw`block px-4 py-2 text-sm text-black bg-green-400`}>Ver perfil</Text>
+                <Text style={tw`px-4 py-2 text-base text-black bg-green-400 mb-2`}>Ver perfil</Text>
               </TouchableOpacity>
+              {userRole === "user" && (
+                <TouchableOpacity onPress={handleUpgradeUser}>
+                  <Text style={tw`px-4 py-2 text-base text-black bg-rose-500`}>Hazte admin</Text>
+                </TouchableOpacity>
+              )}
             </View>
           )}
         </View>
@@ -103,7 +114,7 @@ export default function Header({ user }) {
           {showDropdownAdmin && (
             <View style={tw`absolute top-full right-0 bg-gray-900 rounded-md shadow-lg`}>
               <TouchableOpacity onPress={handleUsersCRUD}>
-                <Text style={tw`block px-6 py-2 text-sm text-black bg-red-400 mb-2`}>Usuarios</Text>
+                <Text style={tw`px-6 py-2 text-sm text-black bg-red-400 mb-2`}>Usuarios</Text>
               </TouchableOpacity>
             </View>
           )}
