@@ -5,6 +5,8 @@ import tw from "twrnc";
 function UserForm({
   name,
   setName,
+  lastName,
+  setLastName,
   email,
   setEmail,
   password,
@@ -13,6 +15,7 @@ function UserForm({
   setSelectedRole,
   handleCreate,
   nameError,
+  lastNameError,
   emailError,
   passwordError,
   roleError,
@@ -28,6 +31,15 @@ function UserForm({
       />
       {nameError ? (
         <Text style={tw`text-red-500 mb-2`}>{nameError}</Text>
+      ) : null}
+      <TextInput
+        placeholder="Apellidos"
+        value={lastName}
+        onChangeText={setLastName}
+        style={tw`mb-2 p-2 border border-gray-400 rounded`}
+      />
+      {lastNameError ? (
+        <Text style={tw`text-red-500 mb-2`}>{lastNameError}</Text>
       ) : null}
       <TextInput
         placeholder="Correo Electrónico"
