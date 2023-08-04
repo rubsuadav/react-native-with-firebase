@@ -5,11 +5,13 @@ import { useNavigation } from "@react-navigation/native";
 
 //local imports
 import { getUserRole, shouldLogoutAlertMobile, shouldLogoutAlertWeb } from "../utils/Functions";
+import { FIREBASE_AUTH } from "../firebaseConfig";
 
-export default function Header({ user }) {
+export default function Header() {
   const [error, setError] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDropdownAdmin, setShowDropdownAdmin] = useState(false);
+  const user = FIREBASE_AUTH.currentUser;
   const [userRole, setUserRole] = useState("");
   const navigation = useNavigation();
 
@@ -59,7 +61,6 @@ export default function Header({ user }) {
 
   function handleUpgradeUser() {
     setShowDropdown(false);
-    console.warn("upgrade user");
     navigation.navigate("UpgradeUser");
   }
 
@@ -67,7 +68,7 @@ export default function Header({ user }) {
     <View
       style={[
         tw`flex-row justify-between items-center bg-gray-900 px-4 border-b border-gray-800`,
-        (showDropdown || showDropdownAdmin) && tw`pb-28`
+        (showDropdown || showDropdownAdmin) && tw`pb-44`
       ]}
     >
       <Image

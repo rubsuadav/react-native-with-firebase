@@ -28,23 +28,21 @@ export default function App() {
   const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = FIREBASE_AUTH.onAuthStateChanged(async (user) => {
+    const unsubscribe = FIREBASE_AUTH.onIdTokenChanged(async (user) => {
       setUser(user);
       if (user) {
         const role = await getUserRole({ user });
         setUserRole(role);
       }
     });
-
     return unsubscribe;
   }, []);
-
   const { height, width } = useWindowDimensions();
 
   return (
     <NavigationContainer>
       <View style={[tw`android:mt-14`, { height, width }]}>
-        <Header user={user} />
+        <Header />
         <Stack.Navigator>
           {userRole === "admin" ? (
             <>

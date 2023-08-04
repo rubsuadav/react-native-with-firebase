@@ -44,6 +44,7 @@ export default function RegisterScreen() {
         email: email,
         roleId: "user",
       });
+      localStorage.setItem("token", await user.getIdToken());
       navigation.navigate("Login");
     } catch (error) {
       switch (error.code) {
