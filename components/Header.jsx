@@ -4,26 +4,31 @@ import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 
 //local imports
-import { getUserRole, shouldLogoutAlertMobile, shouldLogoutAlertWeb } from "../utils/Functions";
+import { getUserDisplayNameByUid, getUserRole, shouldLogoutAlertMobile, shouldLogoutAlertWeb } from "../utils/Functions";
 import { FIREBASE_AUTH } from "../firebaseConfig";
 
 export default function Header() {
   const [error, setError] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDropdownAdmin, setShowDropdownAdmin] = useState(false);
-  const user = FIREBASE_AUTH.currentUser;
+  const [user, setUser] = useState(null);
   const [userRole, setUserRole] = useState("");
   const navigation = useNavigation();
 
   useEffect(() => {
-    async function fetchUserRole() {
-      if (user) {
-        const role = await getUserRole({ user });
-        setUserRole(role);
+    FIREBASE_AUTH.onAuthStateChanged(async (user) => {
+      switch (user) {
+        case null:
+          setUser(null);
+          break;
+        default:
+          setUser({ ...user, displayName: await getUserDisplayNameByUid(user.uid) });
+          const role = await getUserRole({ user });
+          setUserRole(role);
+          break;
       }
-    }
-    fetchUserRole();
-  }, [user]);
+    });
+  }, []);
 
   async function handleLogout() {
     setShowDropdown(false);

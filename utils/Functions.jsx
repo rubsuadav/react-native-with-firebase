@@ -40,6 +40,21 @@ export async function getUserRole({ user }) {
   }
 }
 
+export async function getUserDisplayNameByUid(uid) {
+  const userRef = doc(FIREBASE_DB, "users", uid);
+  const docSnap = await getDoc(userRef);
+  switch (docSnap.exists()) {
+    case true:
+      const name = docSnap.data().name;
+      const lastName = docSnap.data().lastName;
+      const displayName = `${name} ${lastName}`;
+      return displayName;
+    case false:
+      return null;
+  }
+}
+
+
 //------------------------------------------------ALERTS------------------------------------------------
 
 //////////////////////////////////////////MOBILE///////////////////////////////
