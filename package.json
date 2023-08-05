@@ -7,7 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "predeploy": "npx expo export:web",
+    "predeploy": "npx expo export",
     "deploy": "npm run predeploy && firebase deploy --only hosting"
   },
   "dependencies": {
