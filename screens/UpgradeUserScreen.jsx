@@ -37,10 +37,4 @@ export default function UpgradeUserScreen() {
             </View>
         );
     }
-
-    return (
-        <View>
-            {checkoutSession ? <Text>{checkoutSession.id}</Text> : null}
-        </View>
-    );
 };
