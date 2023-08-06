@@ -32,10 +32,11 @@ export default function Header() {
 
   async function handleLogout() {
     setShowDropdown(false);
+    setShowDropdownAdmin(false);
     try {
       switch (Platform.OS) {
         case "web":
-          await shouldLogoutAlertWeb();
+          await shouldLogoutAlertWeb({ setShowDropdown, setShowDropdownAdmin });
           break;
         case "android":
           await shouldLogoutAlertMobile({ navigation });
@@ -61,6 +62,7 @@ export default function Header() {
 
   async function handleUsersCRUD() {
     setShowDropdownAdmin(false);
+    setShowDropdown(false);
     navigation.navigate("UserAdmin");
   }
 

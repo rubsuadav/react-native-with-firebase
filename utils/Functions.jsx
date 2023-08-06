@@ -54,7 +54,31 @@ export async function getUserDisplayNameByUid(uid) {
   }
 }
 
-export async function setUserRoleByCheckoutSessionEmail() {
+export async function getSubcriptionSessionByUserEmail() {
+  const docRef = collection(FIREBASE_DB, "customers");
+  const q = query(docRef, where("email", "==", FIREBASE_AUTH.currentUser.email));
+  const querySnapshot = await getDocs(q);
+  switch (!querySnapshot.empty) {
+    case true:
+      querySnapshot.forEach(async (docu) => {
+        const colRef = collection(FIREBASE_DB, "customers", docu.id, "subscriptions");
+        const querySnapshot = await getDocs(colRef);
+        switch (!querySnapshot.empty) {
+          case true:
+            querySnapshot.forEach(async (docum) => {
+              await setUserRoleByCheckoutSessionEmail();
+            });
+            break;
+          case false:
+            break;
+        }
+      })
+      break;
+    case false:
+      break;
+  }
+}
+async function setUserRoleByCheckoutSessionEmail() {
   const docRef = doc(FIREBASE_DB, "customers", FIREBASE_AUTH.currentUser.uid);
   const docSnap = await getDoc(docRef);
   switch (docSnap.exists()) {
@@ -116,7 +140,7 @@ function showAutoLogoutAlertMobile({ navigation }) {
 
 //////////////////////////////////////////WEB///////////////////////////////
 
-export async function shouldLogoutAlertWeb() {
+export async function shouldLogoutAlertWeb({ setShowDropdown, setShowDropdownAdmin }) {
   const swal = await Swal.fire({
     title: 'Quieres cerrar sesión?',
     showDenyButton: true,
@@ -130,6 +154,8 @@ export async function shouldLogoutAlertWeb() {
       window.location.reload();
       break;
     case false:
+      setShowDropdown(false);
+      setShowDropdownAdmin(false);
       break;
     default:
       break;
