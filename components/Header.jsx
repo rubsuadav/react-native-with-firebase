@@ -57,6 +57,7 @@ export default function Header() {
 
   function handleProfile() {
     setShowDropdown(false);
+    setShowDropdownAdmin(false);
     navigation.navigate("Profile");
   }
 
