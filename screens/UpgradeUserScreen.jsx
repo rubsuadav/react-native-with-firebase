@@ -18,7 +18,7 @@ export default function UpgradeUserScreen() {
         async function fetchCheckoutSession() {
             const session = await createCheckoutSession(payments, {
                 price: "price_1Nb0GOGgNDimUjxYF9a96lkV",
-                success_url: "https://example.com/payments/success",
+                success_url: window.location.origin,
                 cancel_url: "https://example.com/payments/cancel",
                 mode: "subscription",
             });
@@ -37,10 +37,4 @@ export default function UpgradeUserScreen() {
             </View>
         );
     }
-
-    return (
-        <View>
-            {checkoutSession ? <Text>{checkoutSession.id}</Text> : null}
-        </View>
-    );
 };

@@ -1,4 +1,4 @@
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import Swal from "sweetalert2";
 import { Alert } from "react-native";
 
@@ -49,6 +49,23 @@ export async function getUserDisplayNameByUid(uid) {
       const lastName = docSnap.data().lastName;
       const displayName = `${name} ${lastName}`;
       return displayName;
+    case false:
+      return null;
+  }
+}
+
+export async function setUserRoleByCheckoutSessionEmail() {
+  const docRef = doc(FIREBASE_DB, "customers", FIREBASE_AUTH.currentUser.uid);
+  const docSnap = await getDoc(docRef);
+  switch (docSnap.exists()) {
+    case true:
+      const userRef = collection(FIREBASE_DB, "users");
+      const email = docSnap.data().email;
+      const q = query(userRef, where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach(async (doc) => {
+        await updateDoc(doc.ref, { roleId: "admin" });
+      });
     case false:
       return null;
   }
