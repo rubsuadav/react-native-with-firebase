@@ -5,6 +5,7 @@ import tw from 'twrnc';
 
 //local imports
 import { FIREBASE_APP } from '../firebaseConfig';
+import { getSubcriptionSessionByUserEmail } from '../utils/Functions';
 
 export default function UpgradeUserScreen() {
     const [checkoutSession, setCheckoutSession] = useState(null);
@@ -26,6 +27,7 @@ export default function UpgradeUserScreen() {
             window.location.assign(session.url);
         }
         fetchCheckoutSession();
+        getSubcriptionSessionByUserEmail();
     }, []);
 
     if (!checkoutSession) {
