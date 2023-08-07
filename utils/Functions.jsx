@@ -1,9 +1,11 @@
-import { collection, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import Swal from "sweetalert2";
 import { Alert } from "react-native";
 
 //local imports
 import { FIREBASE_AUTH, FIREBASE_DB } from "../firebaseConfig";
+
+//------------------USER FUNCTIONS------------------//
 
 export async function getUserProfile({ setError, setUser }) {
   const currentUser = FIREBASE_AUTH.currentUser;
@@ -95,6 +97,66 @@ async function setUserRoleByCheckoutSessionEmail() {
   }
 }
 
+//------------------TABLES FUNCTIONS------------------//
+
+export async function createExampleTables() {
+  const tablesCollection = collection(FIREBASE_DB, "tables");
+  const table1 = {
+    number: 1,
+    capacity: 4,
+  };
+  const table2 = {
+    number: 2,
+    capacity: 6,
+  };
+  const table3 = {
+    number: 3,
+    capacity: 2,
+  };
+  const table4 = {
+    number: 4,
+    capacity: 4,
+  };
+  const table5 = {
+    number: 5,
+    capacity: 6,
+  };
+
+  const table6 = {
+    number: 6,
+    capacity: 2,
+  };
+
+  const table7 = {
+    number: 7,
+    capacity: 4,
+  };
+  const table8 = {
+    number: 8,
+    capacity: 10,
+  };
+  const table9 = {
+    number: 9,
+    capacity: 2,
+  };
+  const table10 = {
+    number: 10,
+    capacity: 4,
+  };
+
+  const tables = [table1, table2, table3, table4, table5, table6, table7, table8, table9, table10];
+  const tablesSnapshot = await getDocs(tablesCollection);
+  switch (tablesSnapshot.empty) {
+    case true:
+      tables.forEach(async (table) => {
+        const docRef = doc(tablesCollection);
+        await setDoc(docRef, table);
+      });
+      break;
+    default:
+      break;
+  }
+}
 
 //------------------------------------------------ALERTS------------------------------------------------
 

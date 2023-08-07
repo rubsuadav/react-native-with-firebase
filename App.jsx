@@ -11,6 +11,7 @@ import ProfileScreen from "./screens/ProfileScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import UpgradeUserScreen from "./screens/UpgradeUserScreen";
+import BookingScreen from "./screens/BookingScreen";
 
 //firebase
 import { FIREBASE_AUTH } from "./firebaseConfig";
@@ -46,6 +47,11 @@ export default function App() {
         <Stack.Navigator>
           {userRole === "admin" ? (
             <>
+            <Stack.Screen
+                name = "Bookings"
+                component = {BookingScreen}
+                options = {{ headerShown: false }}
+              />
               <Stack.Screen
                 name="UserAdmin"
                 component={UserAdminScreen}
@@ -74,6 +80,11 @@ export default function App() {
                 </>
               ) : (
                 <>
+                <Stack.Screen
+                    name = "Bookings"
+                    component = {BookingScreen}
+                    options = {{ headerShown: false }}
+                  />
                   <Stack.Screen
                     name="Profile"
                     component={ProfileScreen}
