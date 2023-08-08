@@ -6,12 +6,8 @@ import tw from "twrnc";
 
 //local imports
 //screens
-import UserAdminScreen from "./screens/UserAdminScreen";
-import ProfileScreen from "./screens/ProfileScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
-import UpgradeUserScreen from "./screens/UpgradeUserScreen";
-import BookingScreen from "./screens/BookingScreen";
 
 //firebase
 import { FIREBASE_AUTH } from "./firebaseConfig";
@@ -22,6 +18,8 @@ import Footer from "./components/Footer";
 
 //utils
 import { getUserRole } from "./utils/Functions";
+import UserScreens from "./utils/UserScreens";
+import AdminScreens from "./utils/AdminScreens";
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -46,23 +44,11 @@ export default function App() {
         <Header />
         <Stack.Navigator>
           {userRole === "admin" ? (
-            <>
             <Stack.Screen
-                name = "Bookings"
-                component = {BookingScreen}
-                options = {{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="UserAdmin"
-                component={UserAdminScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Profile"
-                component={ProfileScreen}
-                options={{ headerShown: false }}
-              />
-            </>
+              name="AdminScreens"
+              component={AdminScreens}
+              options={{ headerShown: false }}
+            />
           ) : (
             <>
               {!user ? (
@@ -79,23 +65,11 @@ export default function App() {
                   />
                 </>
               ) : (
-                <>
                 <Stack.Screen
-                    name = "Bookings"
-                    component = {BookingScreen}
-                    options = {{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="Profile"
-                    component={ProfileScreen}
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="UpgradeUser"
-                    component={UpgradeUserScreen}
-                    options={{ headerShown: false }}
-                  />
-                </>
+                  name="UserScreens"
+                  component={UserScreens}
+                  options={{ headerShown: false }}
+                />
               )}
             </>
           )}
