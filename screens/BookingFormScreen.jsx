@@ -2,10 +2,12 @@ import { View, TextInput, Text, ScrollView, TouchableOpacity } from 'react-nativ
 import React, { useEffect, useState } from 'react';
 import tw from 'twrnc';
 import { useNavigation } from '@react-navigation/native';
+import { collection, doc, setDoc } from 'firebase/firestore';
+import Swal from 'sweetalert2';
 
 //local imports
 import { getUserDisplayNameByUid } from '../utils/Functions';
-import { FIREBASE_AUTH } from '../firebaseConfig';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../firebaseConfig';
 import { validatePhone } from '../utils/Validators';
 
 export default function BookingFormScreen({ route }) {
@@ -29,7 +31,22 @@ export default function BookingFormScreen({ route }) {
     async function handleBooking() {
         if (!validatePhone(phone, setError)) return;
         try {
-            console.log(`Reservando mesa número ${tableNumber} con el teléfono ${phone}`);
+            const colRef = collection(FIREBASE_DB, 'bookings');
+            const docRef = doc(colRef);
+            await setDoc(docRef, {
+                tableNumber,
+                phone,
+                fullName,
+                userId: FIREBASE_AUTH.currentUser.uid,
+                createdAt: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate()
+            });
+            const swal = await Swal.fire({
+                title: 'Reserva realizada',
+                text: 'Tu reserva se ha realizado correctamente',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            });
+            swal.isConfirmed && navigation.goBack();
         } catch (error) {
             setError(error.message);
         }
