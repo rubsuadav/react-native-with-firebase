@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { collection, onSnapshot } from "firebase/firestore";
 import tw from "twrnc";
+import { TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 //local imports
 import { FIREBASE_DB } from "../firebaseConfig";
@@ -9,6 +11,7 @@ import { createExampleTables } from "../utils/Functions";
 
 export default function BookingScreen() {
   const [tables, setTables] = useState([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     createExampleTables();
@@ -26,6 +29,10 @@ export default function BookingScreen() {
     return () => unsubscribe();
   }, []);
 
+  function handleBookingTable() {
+    navigation.navigate("BookingForm");
+  }
+
   return (
     <ScrollView style={tw`pt-20`}>
       <View style={tw`flex-1 items-center justify-center bg-gray-100`}>
@@ -41,6 +48,9 @@ export default function BookingScreen() {
                 ${table.number % 2 === 0 ? 'text-green-600' : 'text-sky-600'}`}>mesa número {table.number}
               </Text>
               <Text style={tw`text-black text-center`}>capacidad: {<Text style={tw`text-red-500 text-lg font-bold`}>{table.capacity}</Text>} personas</Text>
+              <TouchableOpacity style={tw`bg-red-400 rounded-md w-40 mx-auto my-4 py-2`} onPress={handleBookingTable}>
+                <Text style={tw`text-white text-center text-lg font-bold`}>reservar</Text>
+              </TouchableOpacity>
             </View>
           ))}
         </View>
