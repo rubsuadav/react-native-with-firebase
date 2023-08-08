@@ -158,6 +158,54 @@ export async function createExampleTables() {
   }
 }
 
+export async function updateTablesDueToBookings({ tables, setTables }) {
+  const bookingRef = collection(FIREBASE_DB, "bookings");
+  const querySnapshot = await getDocs(bookingRef);
+  switch (querySnapshot.empty) {
+    case true:
+      for (let t of tables) {
+        t.availablePlaces = t.capacity;
+        setTables([...tables]);
+      }
+      break;
+    case false:
+      const numberOfBookings = querySnapshot.size;
+      for (let t of tables) {
+        switch (t.number) {
+          case querySnapshot.docs[0].data().tableNumber:
+            t.availablePlaces = t.capacity - numberOfBookings;
+            setTables([...tables]);
+            break;
+          default:
+            t.availablePlaces = t.capacity;
+            setTables([...tables]);
+            break;
+        }
+      }
+      break;
+    default:
+      break;
+  }
+}
+
+export async function canBookTables({ setCanBook, setBookings }) {
+  const bookingRef = collection(FIREBASE_DB, "bookings");
+  const q = query(bookingRef, where("userId", "==", FIREBASE_AUTH.currentUser.uid));
+  const querySnapshot = await getDocs(q);
+  const numberOfBookings = querySnapshot.size;
+  setBookings(numberOfBookings);
+  switch (querySnapshot.empty) {
+    case true:
+      setCanBook(true);
+      break;
+    case false:
+      setCanBook(false);
+      break;
+    default:
+      break;
+  }
+}
+
 //------------------------------------------------ALERTS------------------------------------------------
 
 //////////////////////////////////////////MOBILE///////////////////////////////

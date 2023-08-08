@@ -7,11 +7,13 @@ import { useNavigation } from "@react-navigation/native";
 
 //local imports
 import { FIREBASE_DB } from "../firebaseConfig";
-import { createExampleTables } from "../utils/Functions";
+import { canBookTables, createExampleTables, updateTablesDueToBookings } from "../utils/Functions";
 
 export default function BookingScreen() {
   const [tables, setTables] = useState([]);
   const navigation = useNavigation();
+  const [bookings, setBookings] = useState(0);
+  const [canBook, setCanBook] = useState(false);
 
   useEffect(() => {
     createExampleTables();
@@ -29,6 +31,11 @@ export default function BookingScreen() {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    updateTablesDueToBookings({ tables, setTables });
+    canBookTables({ setCanBook, setBookings });
+  }, [tables])
+
   function handleBooking(tableNumber) {
     navigation.navigate("BookingForm", { tableNumber });
   }
@@ -37,9 +44,11 @@ export default function BookingScreen() {
     <ScrollView style={tw`pt-20`}>
       <View style={tw`flex-1 items-center justify-center bg-gray-100`}>
         <View style={tw`pt-2 mb-4`}>
-          <Text style={tw`ml-3 text-2xl font-bold text-justify capitalize`}>hay <Text style={tw`text-red-500`}>{tables.length}</Text> mesas totales.
-            elige <Text style={tw`text-blue-800`}>1</Text> para reservarla
-          </Text>
+          {canBook &&
+            <Text style={tw`ml-3 text-2xl font-bold text-justify capitalize`}>hay <Text style={tw`text-red-500`}>{tables.length}</Text> mesas totales.
+              elige <Text style={tw`text-blue-800`}>1</Text> para reservarla
+            </Text>
+          }
         </View>
         <View style={tw`flex-row flex-wrap justify-center pt-20`}>
           {tables.map((table) => (
@@ -48,9 +57,12 @@ export default function BookingScreen() {
                 ${table.number % 2 === 0 ? 'text-green-600' : 'text-sky-600'}`}>mesa número {table.number}
               </Text>
               <Text style={tw`text-black text-center`}>capacidad: {<Text style={tw`text-red-500 text-lg font-bold`}>{table.capacity}</Text>} personas</Text>
-              <TouchableOpacity style={tw`bg-red-400 rounded-md w-40 mx-auto my-4 py-2`} onPress={() => handleBooking(table.number)}>
-                <Text style={tw`text-white text-center text-lg font-bold`}>reservar</Text>
-              </TouchableOpacity>
+              <Text style={tw`text-black text-center`}>plazas disponibles: {<Text style={tw`text-sky-700 text-lg font-bold`}>{table.availablePlaces}</Text>} personas</Text>
+              {bookings === 0 &&
+                <TouchableOpacity style={tw`bg-red-400 rounded-md w-40 mx-auto my-4 py-2`} onPress={() => handleBooking(table.number)}>
+                  <Text style={tw`text-white text-center text-lg font-bold`}>reservar</Text>
+                </TouchableOpacity>
+              }
             </View>
           ))}
         </View>
