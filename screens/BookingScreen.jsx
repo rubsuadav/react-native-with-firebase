@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { collection, onSnapshot } from "firebase/firestore";
 import tw from "twrnc";
 
@@ -27,14 +27,24 @@ export default function BookingScreen() {
   }, []);
 
   return (
-    <View style={tw`flex-1 items-center justify-center bg-gray-100`}>
-      <Text style={tw`text-2xl font-bold mb-4`}>Lista de tables:</Text>
-      {tables.map((table) => (
-        <View key={table.id} style={tw`bg-white rounded-lg shadow-md p-4 mb-4 w-80`}>
-          <Text style={tw`text-lg font-bold`}>table {table.number}</Text>
-          <Text style={tw`text-gray-500`}>capacity: {table.capacity}</Text>
+    <ScrollView style={tw`pt-20`}>
+      <View style={tw`flex-1 items-center justify-center bg-gray-100`}>
+        <View style={tw`pt-2 mb-4`}>
+          <Text style={tw`ml-3 text-2xl font-bold text-justify capitalize`}>hay <Text style={tw`text-red-500`}>{tables.length}</Text> mesas totales.
+            elige <Text style={tw`text-blue-800`}>1</Text> para reservarla
+          </Text>
         </View>
-      ))}
-    </View>
+        <View style={tw`flex-row flex-wrap justify-center pt-20`}>
+          {tables.map((table) => (
+            <View key={table.id} style={tw`bg-white rounded-lg shadow-md mb-12 w-80 mx-2`}>
+              <Text style={tw`text-lg font-bold text-center capitalize 
+                ${table.number % 2 === 0 ? 'text-green-600' : 'text-sky-600'}`}>mesa número {table.number}
+              </Text>
+              <Text style={tw`text-black text-center`}>capacidad: {<Text style={tw`text-red-500 text-lg font-bold`}>{table.capacity}</Text>} personas</Text>
+            </View>
+          ))}
+        </View>
+      </View>
+    </ScrollView>
   );
 }
