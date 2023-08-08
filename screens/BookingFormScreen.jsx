@@ -46,7 +46,7 @@ export default function BookingFormScreen({ route }) {
                 icon: 'success',
                 confirmButtonText: 'Aceptar'
             });
-            swal.isConfirmed && navigation.goBack();
+            swal.isConfirmed && navigation.goBack() && window.location.reload();
         } catch (error) {
             setError(error.message);
         }
