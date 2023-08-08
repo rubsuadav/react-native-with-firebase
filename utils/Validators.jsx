@@ -30,3 +30,25 @@ export function validate({ name, lastName, email, password, selectedRole }) {
   }
   return errors;
 }
+
+export function validatePhone(phone, setError) {
+  let isValid = true;
+  let errorMessage = '';
+
+  switch (true) {
+    case !phone:
+      errorMessage = 'El teléfono es obligatorio';
+      isValid = false;
+      break;
+    case !/^(\+34|0034|34)?[ -]*(6|7)[ -]*([0-9][ -]*){8}$/.test(phone):
+      errorMessage = 'El teléfono no es válido';
+      isValid = false;
+      break;
+    default:
+      errorMessage = '';
+      isValid = true;
+      break;
+  }
+  setError(errorMessage);
+  return isValid;
+}

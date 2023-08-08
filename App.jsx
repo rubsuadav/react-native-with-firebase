@@ -36,6 +36,7 @@ export default function App() {
     });
     return unsubscribe;
   }, []);
+
   const { height, width } = useWindowDimensions();
 
   return (

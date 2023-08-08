@@ -29,8 +29,8 @@ export default function BookingScreen() {
     return () => unsubscribe();
   }, []);
 
-  function handleBookingTable() {
-    navigation.navigate("BookingForm");
+  function handleBooking(tableNumber) {
+    navigation.navigate("BookingForm", { tableNumber });
   }
 
   return (
@@ -48,7 +48,7 @@ export default function BookingScreen() {
                 ${table.number % 2 === 0 ? 'text-green-600' : 'text-sky-600'}`}>mesa número {table.number}
               </Text>
               <Text style={tw`text-black text-center`}>capacidad: {<Text style={tw`text-red-500 text-lg font-bold`}>{table.capacity}</Text>} personas</Text>
-              <TouchableOpacity style={tw`bg-red-400 rounded-md w-40 mx-auto my-4 py-2`} onPress={handleBookingTable}>
+              <TouchableOpacity style={tw`bg-red-400 rounded-md w-40 mx-auto my-4 py-2`} onPress={() => handleBooking(table.number)}>
                 <Text style={tw`text-white text-center text-lg font-bold`}>reservar</Text>
               </TouchableOpacity>
             </View>
