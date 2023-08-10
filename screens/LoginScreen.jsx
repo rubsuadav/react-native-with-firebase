@@ -35,7 +35,6 @@ export default function LoginScreen() {
           localStorage.setItem("token", await user.getIdToken());
           break;
         case "android":
-          navigation.navigate("Profile");
           break;
         default:
           break;

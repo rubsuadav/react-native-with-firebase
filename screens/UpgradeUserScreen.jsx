@@ -1,36 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import { collection, addDoc, onSnapshot } from 'firebase/firestore';
 import { View, Text } from 'react-native';
-import { getStripePayments, createCheckoutSession } from "@stripe/firestore-stripe-payments";
 import tw from 'twrnc';
 
 //local imports
-import { FIREBASE_APP } from '../firebaseConfig';
+import { useEffect, useState } from 'react';
+import { FIREBASE_AUTH, FIREBASE_DB } from '../firebaseConfig';
 import { getSubcriptionSessionByUserEmail } from '../utils/Functions';
 
 export default function UpgradeUserScreen() {
-    const [checkoutSession, setCheckoutSession] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const payments = getStripePayments(FIREBASE_APP, {
-        productsCollection: "products",
-        customersCollection: "customers",
-    });
+    async function handleUpgrade() {
+        const colRef = collection(FIREBASE_DB, "customers", FIREBASE_AUTH.currentUser.uid, "checkout_sessions");
+        const newDocRef = await addDoc(colRef, {
+            price: "price_1Nb0GOGgNDimUjxYF9a96lkV",
+            success_url: window.location.origin,
+            cancel_url: window.location.origin,
+        });
+        onSnapshot(newDocRef, (snap) => {
+            const { error, url } = snap.data();
+            if (error) {
+                alert(`An error occured: ${error.message}`);
+            }
+            if (url) {
+                setIsLoading(false);
+                window.location.assign(url);
+            }
+        });
+        await getSubcriptionSessionByUserEmail();
+    }
 
     useEffect(() => {
-        async function fetchCheckoutSession() {
-            const session = await createCheckoutSession(payments, {
-                price: "price_1Nb0GOGgNDimUjxYF9a96lkV",
-                success_url: window.location.origin,
-                cancel_url: "https://example.com/payments/cancel",
-                mode: "subscription",
-            });
-            setCheckoutSession(session);
-            window.location.assign(session.url);
+        async function fetchSubcriptionSession() {
+            await handleUpgrade();
         }
-        fetchCheckoutSession();
-        getSubcriptionSessionByUserEmail();
-    }, []);
+        fetchSubcriptionSession();
+    }, [])
 
-    if (!checkoutSession) {
+    if (isLoading) {
         return (
             <View
                 style={tw`flex-1 items-center justify-center bg-opacity-80 bg-gray-900`}
@@ -39,4 +46,5 @@ export default function UpgradeUserScreen() {
             </View>
         );
     }
+    return null;
 };
