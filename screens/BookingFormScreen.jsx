@@ -9,13 +9,14 @@ import Swal from 'sweetalert2';
 import { getUserDisplayNameByUid } from '../utils/Functions';
 import { FIREBASE_AUTH, FIREBASE_DB } from '../firebaseConfig';
 import { validatePhone } from '../utils/Validators';
+import TimePicker from '../components/TimePicker';
 
 export default function BookingFormScreen({ route }) {
+    const [time, setTime] = useState("Hora de la reserva");
     const [fullName, setFullName] = useState('');
     const [error, setError] = useState('');
     const [phone, setPhone] = useState('');
     const { tableNumber } = route.params;
-
     const navigation = useNavigation();
 
     async function getUserName() {
@@ -30,10 +31,15 @@ export default function BookingFormScreen({ route }) {
 
     async function handleBooking() {
         if (!validatePhone(phone, setError)) return;
+        if (time === "Hora de la reserva") {
+            setError("Debes seleccionar una hora para la reserva");
+            return;
+        }
         try {
             const colRef = collection(FIREBASE_DB, 'bookings');
             const docRef = doc(colRef);
             await setDoc(docRef, {
+                time,
                 tableNumber,
                 phone,
                 fullName,
@@ -67,6 +73,9 @@ export default function BookingFormScreen({ route }) {
                         onChangeText={setPhone}
                         style={tw`border-2 border-gray-400 p-2 bg-gray-100`}
                     />
+                    <View style={tw`mt-4`} >
+                        <TimePicker time={time} setTime={setTime} />
+                    </View>
                 </View>
                 <TouchableOpacity style={tw`bg-cyan-500 p-2 rounded-md mb-4`} onPress={handleBooking}>
                     <Text style={tw`text-black text-center text-lg font-bold`}>Reservar</Text>
