@@ -52,3 +52,17 @@ export function validatePhone(phone, setError) {
   setError(errorMessage);
   return isValid;
 }
+
+export function formatPhoneNumber(phoneNumber) {
+  // Eliminar todos los caracteres que no sean dígitos
+  const cleaned = phoneNumber.replace(/\D/g, '');
+
+  // Si el número comienza con "34", eliminarlo
+  const match = cleaned.match(/^34/);
+  if (match) {
+    cleaned = cleaned.slice(2);
+  }
+
+  // Agregar el prefijo de España "+34"
+  return `+34${cleaned}`;
+}

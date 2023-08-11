@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 //local imports
 import { getUserDisplayNameByUid } from '../utils/Functions';
 import { FIREBASE_AUTH, FIREBASE_DB } from '../firebaseConfig';
-import { validatePhone } from '../utils/Validators';
+import { formatPhoneNumber, validatePhone } from '../utils/Validators';
 import TimePicker from '../components/TimePicker';
 
 export default function BookingFormScreen({ route }) {
@@ -48,10 +48,18 @@ export default function BookingFormScreen({ route }) {
             });
             const swal = await Swal.fire({
                 title: 'Reserva realizada',
-                text: 'Tu reserva se ha realizado correctamente',
+                text: 'Tu reserva se ha realizado correctamente, se te enviará un SMS con la confirmación a tu teléfono móvil',
                 icon: 'success',
                 confirmButtonText: 'Aceptar'
             });
+
+            const msgColRef = collection(FIREBASE_DB, "messages");
+            const msgDocRef = doc(msgColRef);
+            await setDoc(msgDocRef, {
+                to: formatPhoneNumber(phone),
+                body: `Has reservado la mesa número ${tableNumber} para el día ${new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate()} a las ${time}`
+            });
+
             swal.isConfirmed && navigation.goBack() && window.location.reload();
         } catch (error) {
             setError(error.message);
