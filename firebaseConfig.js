@@ -5,14 +5,14 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.EXPO_PUBLIC_API_KEY,
+  apiKey: "AIzaSyDvoSqEX5-tDD47b4VoFXkO7iglQOV92G8",
   authDomain: "subcripciones-9d96d.firebaseapp.com",
   databaseURL:
     "https://subcripciones-9d96d-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: process.env.EXPO_PUBLIC_PROJECT_ID,
+  projectId: "subcripciones-9d96d",
   storageBucket: "subcripciones-9d96d.appspot.com",
-  messagingSenderId: process.env.EXPO_PUBLIC_MESSAGING_SENDER_ID,
-  appId: process.env.EXPO_PUBLIC_APP_ID,
+  messagingSenderId: "1078641327786",
+  appId: "1:1078641327786:web:f28bf8c49fad5eac419ad3",
 };
 
 // Initialize Firebase
