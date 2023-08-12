@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 
 //local imports
 import { FIREBASE_DB } from "../firebaseConfig";
-import { canBookTables, createExampleTables, updateTablesDueToBookings } from "../utils/Functions";
+import { canBookTables, createExampleTables, dropBookingsDaily, updateTablesDueToBookings } from "../utils/Functions";
 
 export default function BookingScreen() {
   const [tables, setTables] = useState([]);
@@ -28,6 +28,7 @@ export default function BookingScreen() {
       });
       setTables(tables);
     });
+    dropBookingsDaily(); //comprobar mañana a las 23:00 si funciona
     return () => unsubscribe();
   }, []);
 

@@ -31,10 +31,14 @@ export default function BookingFormScreen({ route }) {
 
     async function handleBooking() {
         if (!validatePhone(phone, setError)) return;
-        if (time === "Selecciona una hora") {
+        if (time === "Hora de la reserva") {
             setError("Debes seleccionar una hora para la reserva");
             return;
+        } else if (time <= new Date().getHours() + ":" + new Date().getMinutes()) {
+            setError("La hora de la reserva debe ser posterior a la actual");
+            return;
         }
+
         try {
             const colRef = collection(FIREBASE_DB, 'bookings');
             const docRef = doc(colRef);
@@ -52,14 +56,12 @@ export default function BookingFormScreen({ route }) {
                 icon: 'success',
                 confirmButtonText: 'Aceptar'
             });
-
             const msgColRef = collection(FIREBASE_DB, "messages");
             const msgDocRef = doc(msgColRef);
             await setDoc(msgDocRef, {
                 to: formatPhoneNumber(phone),
                 body: `Has reservado la mesa número ${tableNumber} para el día ${new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate()} a las ${time}`
             });
-
             swal.isConfirmed && navigation.goBack() && window.location.reload();
         } catch (error) {
             setError(error.message);

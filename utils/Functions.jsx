@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import Swal from "sweetalert2";
 import { Alert } from "react-native";
 
@@ -204,6 +204,18 @@ export async function canBookTables({ setCanBook, setBookings }) {
     default:
       break;
   }
+}
+
+//------------------BOOKINGS FUNCTIONS------------------//
+
+export function dropBookingsDaily() {
+  setInterval(async () => {
+    const bookingRef = collection(FIREBASE_DB, "bookings");
+    const querySnapshot = await getDocs(bookingRef);
+    querySnapshot.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
+    });
+  }, 24 * 60 * 60 * 1000);
 }
 
 //------------------------------------------------ALERTS------------------------------------------------
