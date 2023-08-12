@@ -31,7 +31,7 @@ export default function BookingFormScreen({ route }) {
 
     async function handleBooking() {
         if (!validatePhone(phone, setError)) return;
-        if (time === "Hora de la reserva") {
+        if (time === "Selecciona una hora") {
             setError("Debes seleccionar una hora para la reserva");
             return;
         }
