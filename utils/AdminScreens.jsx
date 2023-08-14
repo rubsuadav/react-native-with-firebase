@@ -6,6 +6,7 @@ import BookingScreen from "../screens/BookingScreen";
 import UserAdminScreen from "../screens/UserAdminScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import BookingFormScreen from "../screens/BookingFormScreen";
+import ChatScreen from "../screens/ChatScreen";
 
 const Stack = createStackNavigator();
 export default function AdminScreens() {
@@ -29,6 +30,11 @@ export default function AdminScreens() {
             <Stack.Screen
                 name="BookingForm"
                 component={BookingFormScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="Chat"
+                component={ChatScreen}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>

@@ -72,6 +72,12 @@ export default function Header() {
     navigation.navigate("UpgradeUser");
   }
 
+  function handleChat(userId) {
+    setShowDropdown(false);
+    setShowDropdownAdmin(false);
+    navigation.navigate("Chat", { userId });
+  }
+
   return (
     <View
       style={[
@@ -96,6 +102,9 @@ export default function Header() {
               </TouchableOpacity>
               <TouchableOpacity onPress={handleProfile}>
                 <Text style={tw`px-4 py-2 text-base text-black bg-green-400 mb-2`}>Ver perfil</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleChat(user.uid)}>
+                <Text style={tw`px-4 py-2 text-base text-black bg-yellow-400 mb-2`}>Chat</Text>
               </TouchableOpacity>
               {userRole === "user" && (
                 <TouchableOpacity onPress={handleUpgradeUser}>
