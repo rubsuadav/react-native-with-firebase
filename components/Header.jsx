@@ -82,7 +82,7 @@ export default function Header() {
     <View
       style={[
         tw`flex-row justify-between items-center bg-gray-900 px-4 border-b border-gray-800`,
-        (showDropdown || showDropdownAdmin) && tw`pb-44`
+        (showDropdown || showDropdownAdmin) && tw`pb-50`
       ]}
     >
       <Image
@@ -104,7 +104,7 @@ export default function Header() {
                 <Text style={tw`px-4 py-2 text-base text-black bg-green-400 mb-2`}>Ver perfil</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleChat(user.uid)}>
-                <Text style={tw`px-4 py-2 text-base text-black bg-yellow-400 mb-2`}>Chat</Text>
+                <Text style={tw`px-4 py-2 text-base text-black bg-yellow-400 mb-2`}>Chatear con usuarios</Text>
               </TouchableOpacity>
               {userRole === "user" && (
                 <TouchableOpacity onPress={handleUpgradeUser}>
