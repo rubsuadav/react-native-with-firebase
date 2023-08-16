@@ -10,10 +10,10 @@ const firebaseConfig = {
   authDomain: process.env.EXPO_PUBLIC_AUTH_DOMAIN,
   databaseURL: process.env.EXPO_PUBLIC_DATABASE_URL,
   projectId: process.env.EXPO_PUBLIC_PROJECT_ID,
-  storageBucket: process.env.EXPO_PUBLIC_STORAGE_BUCKET,
+  storageBucket: "subcripciones-9d96d.appspot.com",
   messagingSenderId: process.env.EXPO_PUBLIC_MESSAGING_SENDER_ID,
   appId: process.env.EXPO_PUBLIC_APP_ID,
-  measurementId: process.env.EXPO_PUBLIC_MEASUREMENT_ID,
+  measurementId: "G-C2PEP07KGH",
 };
 
 // Initialize Firebase
@@ -21,3 +21,4 @@ export const FIREBASE_APP = initializeApp(firebaseConfig);
 export const FIREBASE_AUTH = getAuth(FIREBASE_APP);
 export const FIREBASE_DB = getFirestore(FIREBASE_APP);
 export const FIREBASE_STORAGE = getStorage(FIREBASE_APP);
+console.log("FIREBASE_STORAGE: ", FIREBASE_STORAGE);
