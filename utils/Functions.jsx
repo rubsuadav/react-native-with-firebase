@@ -1,6 +1,7 @@
 import { collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import Swal from "sweetalert2";
 import { Alert } from "react-native";
+import * as ImagePicker from 'expo-image-picker';
 
 //local imports
 import { FIREBASE_AUTH, FIREBASE_DB } from "../firebaseConfig";
@@ -302,3 +303,28 @@ async function showAutoLogoutAlertWeb() {
     },
   });
 }
+
+//---------- IMAGE UPLOAD ----------//
+
+export async function pickImage({ onSend }) {
+  const result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    allowsEditing: true,
+    aspect: [4, 3],
+    quality: 1,
+  });
+
+  if (!result.canceled) {
+    onSend([
+      {
+        _id: String(Date.now()),
+        text: '',
+        createdAt: new Date(),
+        user: {
+          _id: FIREBASE_AUTH.currentUser.email,
+        },
+        image: result.uri,
+      },
+    ]);
+  }
+};
