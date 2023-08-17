@@ -159,7 +159,7 @@ export async function createExampleTables() {
   }
 }
 
-export async function updateTablesDueToBookings({ tables, setTables }) {
+export async function updateTablesDueToBookings({ tables, setTables }) { //revisar función x bucle infinito
   const bookingRef = collection(FIREBASE_DB, "bookings");
   const querySnapshot = await getDocs(bookingRef);
   switch (querySnapshot.empty) {
@@ -189,7 +189,7 @@ export async function updateTablesDueToBookings({ tables, setTables }) {
   }
 }
 
-export async function canBookTables({ setCanBook, setBookings }) {
+export async function canBookTables({ setCanBook, setBookings }) { //revisar función x alto consumo de recursos
   const bookingRef = collection(FIREBASE_DB, "bookings");
   const q = query(bookingRef, where("userId", "==", FIREBASE_AUTH.currentUser.uid));
   const querySnapshot = await getDocs(q);

@@ -40,10 +40,13 @@ export default function BookingScreen() {
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    updateTablesDueToBookings({ tables, setTables });
-    canBookTables({ setCanBook, setBookings });
-  }, [tables]);
+  /* useEffect(() => {
+    async function updateTablesAndCheck() {
+      await updateTablesDueToBookings({ tables, setTables });
+      await canBookTables({ setCanBook, setBookings });
+    }
+    updateTablesAndCheck();
+  }, [tables]);*/
 
   function handleBooking(tableNumber) {
     navigation.navigate("BookingForm", { tableNumber });
