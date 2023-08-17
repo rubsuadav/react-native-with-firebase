@@ -25,7 +25,14 @@ export default function RegisterScreen() {
       setError("Las contraseñas no coinciden");
       return;
     }
-    const val = validate({ name, lastName, email, password, selectedRole: "user" });
+
+    const val = validate({
+      name,
+      lastName,
+      email,
+      password,
+      selectedRole: "user",
+    });
     if (Object.keys(val).length > 0) {
       setError(val[Object.keys(val)[0]]);
       return;
@@ -45,7 +52,6 @@ export default function RegisterScreen() {
         roleId: "user",
       });
       localStorage.setItem("token", await user.getIdToken());
-      navigation.navigate("Login");
     } catch (error) {
       switch (error.code) {
         case "auth/email-already-in-use":

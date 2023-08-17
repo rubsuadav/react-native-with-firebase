@@ -33,19 +33,19 @@ export function validate({ name, lastName, email, password, selectedRole }) {
 
 export function validatePhone(phone, setError) {
   let isValid = true;
-  let errorMessage = '';
+  let errorMessage = "";
 
   switch (true) {
     case !phone:
-      errorMessage = 'El teléfono es obligatorio';
+      errorMessage = "El teléfono es obligatorio";
       isValid = false;
       break;
     case !/^(\+34|0034|34)?[ -]*(6|7)[ -]*([0-9][ -]*){8}$/.test(phone):
-      errorMessage = 'El teléfono no es válido';
+      errorMessage = "El teléfono no es válido";
       isValid = false;
       break;
     default:
-      errorMessage = '';
+      errorMessage = "";
       isValid = true;
       break;
   }
@@ -55,7 +55,7 @@ export function validatePhone(phone, setError) {
 
 export function formatPhoneNumber(phoneNumber) {
   // Eliminar todos los caracteres que no sean dígitos
-  const cleaned = phoneNumber.replace(/\D/g, '');
+  const cleaned = phoneNumber.replace(/\D/g, "");
 
   // Si el número comienza con "34", eliminarlo
   const match = cleaned.match(/^34/);
