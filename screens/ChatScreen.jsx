@@ -37,13 +37,6 @@ export default function ChatScreen() {
                 const storageRef = ref(FIREBASE_STORAGE, `images/${imageName}`);
                 await uploadString(storageRef, message.image, 'data_url');
                 const imageUrl = await getDownloadURL(storageRef);
-                addDoc(collection(FIREBASE_DB, 'chats'), {
-                    _id,
-                    createdAt,
-                    text,
-                    user,
-                    image: imageUrl
-                })
                 return {
                     ...message,
                     image: imageUrl
@@ -55,12 +48,23 @@ export default function ChatScreen() {
         setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages));
 
         const { _id, createdAt, text, user, image } = messages[0];
-        addDoc(collection(FIREBASE_DB, 'chats'), {
-            _id,
-            createdAt,
-            text,
-            user
-        })
+
+        if (image) {
+            addDoc(collection(FIREBASE_DB, 'chats'), {
+                _id,
+                createdAt,
+                text,
+                user,
+                image
+            })
+        } else {
+            addDoc(collection(FIREBASE_DB, 'chats'), {
+                _id,
+                createdAt,
+                text,
+                user
+            })
+        }
     }, [])
 
     return (
