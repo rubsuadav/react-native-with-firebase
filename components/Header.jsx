@@ -91,7 +91,7 @@ export default function Header() {
       style={[
         tw`flex-row justify-between items-center bg-gray-900 px-4 border-b border-gray-800`,
         (showDropdown || showDropdownAdmin) &&
-          (userRole === "admin" ? tw`pb-47` : tw`pb-71`),
+          (userRole === "admin" ? tw`pb-47` : tw`pb-48`),
       ]}
     >
       <Image
