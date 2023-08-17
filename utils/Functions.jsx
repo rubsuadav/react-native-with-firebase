@@ -315,16 +315,28 @@ export async function pickImage({ onSend }) {
   });
 
   if (!result.canceled) {
-    onSend([
-      {
-        _id: String(Date.now()),
-        text: '',
-        createdAt: new Date(),
-        user: {
-          _id: FIREBASE_AUTH.currentUser.email,
-        },
-        image: result.uri,
-      },
-    ]);
+    const swal = await Swal.fire({
+      title: 'Quieres subir la imagen?',
+      showDenyButton: true,
+    });
+    switch (swal.isConfirmed) {
+      case true:
+        onSend([
+          {
+            _id: String(Date.now()),
+            text: '',
+            createdAt: new Date(),
+            user: {
+              _id: FIREBASE_AUTH.currentUser.email,
+            },
+            image: result.uri,
+          },
+        ]);
+        break;
+      case false:
+        break;
+      default:
+        break;
+    }
   }
 };
