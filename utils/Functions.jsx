@@ -1,7 +1,18 @@
-import { collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
+import {
+  and,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import Swal from "sweetalert2";
 import { Alert } from "react-native";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
 
 //local imports
 import { FIREBASE_AUTH, FIREBASE_DB } from "../firebaseConfig";
@@ -59,12 +70,20 @@ export async function getUserDisplayNameByUid(uid) {
 
 export async function getSubcriptionSessionByUserEmail() {
   const docRef = collection(FIREBASE_DB, "customers");
-  const q = query(docRef, where("email", "==", FIREBASE_AUTH.currentUser.email));
+  const q = query(
+    docRef,
+    where("email", "==", FIREBASE_AUTH.currentUser.email)
+  );
   const querySnapshot = await getDocs(q);
   switch (!querySnapshot.empty) {
     case true:
       querySnapshot.forEach(async (docu) => {
-        const colRef = collection(FIREBASE_DB, "customers", docu.id, "subscriptions");
+        const colRef = collection(
+          FIREBASE_DB,
+          "customers",
+          docu.id,
+          "subscriptions"
+        );
         const querySnapshot = await getDocs(colRef);
         switch (!querySnapshot.empty) {
           case true:
@@ -75,7 +94,7 @@ export async function getSubcriptionSessionByUserEmail() {
           case false:
             break;
         }
-      })
+      });
       break;
     case false:
       break;
@@ -145,7 +164,18 @@ export async function createExampleTables() {
     capacity: 4,
   };
 
-  const tables = [table1, table2, table3, table4, table5, table6, table7, table8, table9, table10];
+  const tables = [
+    table1,
+    table2,
+    table3,
+    table4,
+    table5,
+    table6,
+    table7,
+    table8,
+    table9,
+    table10,
+  ];
   const tablesSnapshot = await getDocs(tablesCollection);
   switch (tablesSnapshot.empty) {
     case true:
@@ -159,39 +189,52 @@ export async function createExampleTables() {
   }
 }
 
-export async function updateTablesDueToBookings({ tables, setTables }) { //revisar función x bucle infinito
+export async function updateTablesDueToBookings() {
   const bookingRef = collection(FIREBASE_DB, "bookings");
-  const querySnapshot = await getDocs(bookingRef);
-  switch (querySnapshot.empty) {
+  const bookingQuerySnapshot = await getDocs(bookingRef);
+
+  const tablesRef = collection(FIREBASE_DB, "tables");
+  const tablesQuerySnapshot = await getDocs(tablesRef);
+
+  const allDocs = tablesQuerySnapshot.docs;
+  switch (bookingQuerySnapshot.empty) {
     case true:
-      for (let t of tables) {
-        t.availablePlaces = t.capacity;
-        setTables([...tables]);
-      }
+      allDocs.forEach(async (d) => {
+        const capacity = d.data().capacity;
+        await updateDoc(doc(FIREBASE_DB, "tables", d.id), {
+          availablePlaces: capacity,
+        });
+      });
       break;
     case false:
-      const numberOfBookings = querySnapshot.size;
-      for (let t of tables) {
-        switch (t.number) {
-          case querySnapshot.docs[0].data().tableNumber:
-            t.availablePlaces = t.capacity - numberOfBookings;
-            setTables([...tables]);
-            break;
-          default:
-            t.availablePlaces = t.capacity;
-            setTables([...tables]);
-            break;
-        }
-      }
+      allDocs.forEach(async (d) => {
+        const capacity = d.data().capacity;
+        const tableNumber = d.data().number;
+        const q = query(
+          bookingRef,
+          and(
+            where("tableNumber", "==", tableNumber),
+            where("userId", "==", FIREBASE_AUTH.currentUser.uid)
+          )
+        );
+        const querySnapshot = await getDocs(q);
+        const bookings = querySnapshot.size;
+        await updateDoc(doc(FIREBASE_DB, "tables", d.id), {
+          availablePlaces: capacity - bookings,
+        });
+      });
       break;
     default:
       break;
   }
 }
 
-export async function canBookTables({ setCanBook, setBookings }) { //revisar función x alto consumo de recursos
+export async function canBookTables({ setCanBook, setBookings }) {
   const bookingRef = collection(FIREBASE_DB, "bookings");
-  const q = query(bookingRef, where("userId", "==", FIREBASE_AUTH.currentUser.uid));
+  const q = query(
+    bookingRef,
+    where("userId", "==", FIREBASE_AUTH.currentUser.uid)
+  );
   const querySnapshot = await getDocs(q);
   const numberOfBookings = querySnapshot.size;
   setBookings(numberOfBookings);
@@ -224,23 +267,19 @@ export function dropBookingsDaily() {
 //////////////////////////////////////////MOBILE///////////////////////////////
 
 export async function shouldLogoutAlertMobile({ navigation }) {
-  Alert.alert(
-    "Cerrar sesión",
-    "¿Quieres cerrar sesión?",
-    [
-      {
-        text: "Sí",
-        onPress: () => {
-          showAutoLogoutAlertMobile({ navigation });
-        },
+  Alert.alert("Cerrar sesión", "¿Quieres cerrar sesión?", [
+    {
+      text: "Sí",
+      onPress: () => {
+        showAutoLogoutAlertMobile({ navigation });
       },
-      {
-        text: "No",
-        onPress: () => { },
-        style: "cancel",
-      },
-    ],
-  );
+    },
+    {
+      text: "No",
+      onPress: () => {},
+      style: "cancel",
+    },
+  ]);
 }
 
 function showAutoLogoutAlertMobile({ navigation }) {
@@ -254,20 +293,23 @@ function showAutoLogoutAlertMobile({ navigation }) {
       navigation.navigate("Login");
     }
     Alert.alert(
-      'Cerrando sesión',
+      "Cerrando sesión",
       `La sesión se cerrará automáticamente en ${count} segundos.`,
-      [{ onPress: () => clearInterval(timer) }],
+      [{ onPress: () => clearInterval(timer) }]
     );
   }, interval);
 }
 
 //////////////////////////////////////////WEB///////////////////////////////
 
-export async function shouldLogoutAlertWeb({ setShowDropdown, setShowDropdownAdmin }) {
+export async function shouldLogoutAlertWeb({
+  setShowDropdown,
+  setShowDropdownAdmin,
+}) {
   const swal = await Swal.fire({
-    title: 'Quieres cerrar sesión?',
+    title: "Quieres cerrar sesión?",
     showDenyButton: true,
-    confirmButtonText: 'Sí',
+    confirmButtonText: "Sí",
   });
   switch (swal.isConfirmed) {
     case true:
@@ -316,7 +358,7 @@ export async function pickImage({ onSend }) {
 
   if (!result.canceled) {
     const swal = await Swal.fire({
-      title: 'Quieres subir la imagen?',
+      title: "Quieres subir la imagen?",
       showDenyButton: true,
     });
     switch (swal.isConfirmed) {
@@ -324,7 +366,7 @@ export async function pickImage({ onSend }) {
         onSend([
           {
             _id: String(Date.now()),
-            text: '',
+            text: "",
             createdAt: new Date(),
             user: {
               _id: FIREBASE_AUTH.currentUser.email,
@@ -339,4 +381,4 @@ export async function pickImage({ onSend }) {
         break;
     }
   }
-};
+}

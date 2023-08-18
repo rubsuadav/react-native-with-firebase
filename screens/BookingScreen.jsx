@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { collection, onSnapshot } from "firebase/firestore";
 import tw from "twrnc";
@@ -31,6 +31,7 @@ export default function BookingScreen() {
             id: doc.id,
             number: doc.data().number,
             capacity: doc.data().capacity,
+            availablePlaces: doc.data().availablePlaces,
           });
         });
         setTables(tables);
@@ -40,13 +41,10 @@ export default function BookingScreen() {
     return () => unsubscribe();
   }, []);
 
-  /* useEffect(() => {
-    async function updateTablesAndCheck() {
-      await updateTablesDueToBookings({ tables, setTables });
-      await canBookTables({ setCanBook, setBookings });
-    }
-    updateTablesAndCheck();
-  }, [tables]);*/
+  useMemo(async () => {
+    await updateTablesDueToBookings();
+    await canBookTables({ setCanBook, setBookings });
+  }, []);
 
   function handleBooking(tableNumber) {
     navigation.navigate("BookingForm", { tableNumber });
