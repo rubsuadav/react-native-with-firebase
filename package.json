@@ -28,7 +28,8 @@
     "react-native-safe-area-context": "4.6.3",
     "react-native-web": "~0.19.6",
     "sweetalert2": "^11.7.20",
-    "twrnc": "^3.6.2"
+    "twrnc": "^3.6.2",
+    "expo-av": "~13.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

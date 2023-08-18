@@ -376,3 +376,39 @@ export async function pickImage({ onSend }) {
     }
   }
 }
+
+//---------- VIDEO UPLOAD ----------//
+export async function pickVideo({ onSend }) {
+  const result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+    allowsEditing: true,
+    aspect: [4, 3],
+    videoQuality: ImagePicker.UIImagePickerControllerQualityType.VGA640x480,
+  });
+
+  if (!result.canceled) {
+    const swal = await Swal.fire({
+      title: "Quieres subir el video?",
+      showDenyButton: true,
+    });
+    switch (swal.isConfirmed) {
+      case true:
+        onSend([
+          {
+            _id: String(Date.now()),
+            text: "",
+            createdAt: new Date(),
+            user: {
+              _id: FIREBASE_AUTH.currentUser.email,
+            },
+            video: result.uri,
+          },
+        ]);
+        break;
+      case false:
+        break;
+      default:
+        break;
+    }
+  }
+}

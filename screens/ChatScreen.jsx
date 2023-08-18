@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import { IconButton, MD3Colors } from "react-native-paper";
+import tw from "twrnc";
 
 // local imports
 import {
@@ -17,7 +18,7 @@ import {
   FIREBASE_STORAGE,
 } from "../firebaseConfig";
 import CustomBubble from "../components/CustomBubble";
-import { pickImage } from "../utils/Functions";
+import { pickImage, pickVideo } from "../utils/Functions";
 
 export default function ChatScreen() {
   const [messages, setMessages] = useState([]);
@@ -34,6 +35,7 @@ export default function ChatScreen() {
           text: doc.data().text,
           user: doc.data().user,
           image: doc.data().image || null,
+          video: doc.data().video || null,
         }))
       );
     });
@@ -52,6 +54,16 @@ export default function ChatScreen() {
           image: imageUrl,
         };
       }
+      if (message.video) {
+        const videoName = `${Date.now()}-${message.user._id}`;
+        const storageRef = ref(FIREBASE_STORAGE, `videos/${videoName}`);
+        await uploadString(storageRef, message.video, "data_url");
+        const videoUrl = await getDownloadURL(storageRef);
+        return {
+          ...message,
+          video: videoUrl,
+        };
+      }
       return message;
     });
 
@@ -59,7 +71,7 @@ export default function ChatScreen() {
       GiftedChat.append(previousMessages, newMessages)
     );
 
-    const { _id, createdAt, text, user, image } = messages[0];
+    const { _id, createdAt, text, user, image, video } = messages[0];
 
     if (image) {
       addDoc(collection(FIREBASE_DB, "chats"), {
@@ -68,6 +80,15 @@ export default function ChatScreen() {
         text,
         user,
         image,
+      });
+    }
+    if (video) {
+      addDoc(collection(FIREBASE_DB, "chats"), {
+        _id,
+        createdAt,
+        text,
+        user,
+        video,
       });
     } else {
       addDoc(collection(FIREBASE_DB, "chats"), {
@@ -88,13 +109,18 @@ export default function ChatScreen() {
         _id: FIREBASE_AUTH.currentUser.email,
         avatar: "https://i.pravatar.cc/30",
       }}
-      messagesContainerStyle={{ backgroundColor: "#fff" }}
+      messagesContainerStyle={tw`bg-white p-8`}
       renderActions={() => (
         <>
           <IconButton
             icon="image"
             iconColor={MD3Colors.tertiary20}
             onPress={() => pickImage({ onSend })}
+          />
+          <IconButton
+            icon="video"
+            iconColor={MD3Colors.primary50}
+            onPress={() => pickVideo({ onSend })}
           />
         </>
       )}
