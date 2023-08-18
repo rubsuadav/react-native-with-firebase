@@ -7,11 +7,17 @@ import ProfileScreen from "../screens/ProfileScreen";
 import BookingFormScreen from "../screens/BookingFormScreen";
 import UpgradeUserScreen from "../screens/UpgradeUserScreen";
 import ChatScreen from "../screens/ChatScreen";
+import WelcomeScreen from "../screens/WelcomeScreen";
 
 const Stack = createStackNavigator();
 export default function UserScreens() {
   return (
     <Stack.Navigator>
+      <Stack.Screen
+        name="Welcome"
+        component={WelcomeScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="Bookings"
         component={BookingScreen}
