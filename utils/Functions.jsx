@@ -1,5 +1,4 @@
 import {
-  and,
   collection,
   deleteDoc,
   doc,
@@ -197,6 +196,7 @@ export async function updateTablesDueToBookings() {
   const tablesQuerySnapshot = await getDocs(tablesRef);
 
   const allDocs = tablesQuerySnapshot.docs;
+
   switch (bookingQuerySnapshot.empty) {
     case true:
       allDocs.forEach(async (d) => {
@@ -210,13 +210,7 @@ export async function updateTablesDueToBookings() {
       allDocs.forEach(async (d) => {
         const capacity = d.data().capacity;
         const tableNumber = d.data().number;
-        const q = query(
-          bookingRef,
-          and(
-            where("tableNumber", "==", tableNumber),
-            where("userId", "==", FIREBASE_AUTH.currentUser.uid)
-          )
-        );
+        const q = query(bookingRef, where("tableNumber", "==", tableNumber));
         const querySnapshot = await getDocs(q);
         const bookings = querySnapshot.size;
         await updateDoc(doc(FIREBASE_DB, "tables", d.id), {
