@@ -1,4 +1,4 @@
-import { View, Text, Button, Modal, TouchableOpacity } from "react-native";
+import { View, Text, Modal, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import tw from "twrnc";
