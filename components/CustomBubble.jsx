@@ -54,7 +54,7 @@ export default function CustomBubble(props) {
               <View
                 style={tw`absolute inset-0 flex items-center justify-center`}
               >
-                <FontAwesome name="play-circle" size={50} color="white" />
+                <FontAwesome name="play-circle" size={50} color="black" />
               </View>
             )}
           </View>

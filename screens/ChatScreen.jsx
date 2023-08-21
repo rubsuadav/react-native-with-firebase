@@ -7,7 +7,7 @@ import {
   orderBy,
   onSnapshot,
 } from "firebase/firestore";
-import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { getDownloadURL, listAll, ref, uploadString } from "firebase/storage";
 import { IconButton, MD3Colors } from "react-native-paper";
 import tw from "twrnc";
 
@@ -18,7 +18,8 @@ import {
   FIREBASE_STORAGE,
 } from "../firebaseConfig";
 import CustomBubble from "../components/CustomBubble";
-import { pickImage, pickVideo } from "../utils/Functions";
+import { pickImage } from "../utils/Functions";
+import { pickVideo, sendVideos } from "../utils/Video";
 
 export default function ChatScreen() {
   const [messages, setMessages] = useState([]);
@@ -35,10 +36,28 @@ export default function ChatScreen() {
           text: doc.data().text,
           user: doc.data().user,
           image: doc.data().image || null,
-          video: doc.data().video || null,
         }))
       );
     });
+    const storageRef = ref(FIREBASE_STORAGE, "videos/");
+    listAll(storageRef).then((res) => {
+      res.items.forEach(async (itemRef) => {
+        const url = await getDownloadURL(itemRef);
+        const videoMessage = {
+          _id: Date.now(),
+          createdAt: new Date(),
+          user: {
+            _id: FIREBASE_AUTH.currentUser.email,
+            avatar: "https://i.pravatar.cc/30",
+          },
+          video: url,
+        };
+        setMessages((previousMessages) =>
+          GiftedChat.append(previousMessages, [videoMessage])
+        );
+      });
+    });
+
     return () => unsubscribe;
   }, []);
 
@@ -55,14 +74,7 @@ export default function ChatScreen() {
         };
       }
       if (message.video) {
-        const videoName = `${Date.now()}-${message.user._id}`;
-        const storageRef = ref(FIREBASE_STORAGE, `videos/${videoName}`);
-        await uploadString(storageRef, message.video, "data_url");
-        const videoUrl = await getDownloadURL(storageRef);
-        return {
-          ...message,
-          video: videoUrl,
-        };
+        await sendVideos(message, { setMessages });
       }
       return message;
     });
@@ -83,13 +95,7 @@ export default function ChatScreen() {
       });
     }
     if (video) {
-      addDoc(collection(FIREBASE_DB, "chats"), {
-        _id,
-        createdAt,
-        text,
-        user,
-        video,
-      });
+      return;
     } else {
       addDoc(collection(FIREBASE_DB, "chats"), {
         _id,
