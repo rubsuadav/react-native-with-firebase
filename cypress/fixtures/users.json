@@ -1,0 +1,83 @@
+{
+  "users": [
+    {
+      "name": " ",
+      "last_name": "Manolito",
+      "email": "manu@gmail.com",
+      "password": "test123456a",
+      "confirm": "test123456a"
+    },
+
+    {
+      "name": "test",
+      "last_name": "Manolito",
+      "email": "test@gmail.com",
+      "password": "test123456a",
+      "confirm": "test123456a"
+    },
+
+    {
+      "name": "testdfrgrtgtg",
+      "last_name": " ",
+      "email": "manu@gmail.com",
+      "password": "test123456a",
+      "confirm": "test123456a"
+    },
+
+    {
+      "name": "testdefrfr",
+      "last_name": "test",
+      "email": "manu@gmail.com",
+      "password": "test123456a",
+      "confirm": "test123456a"
+    },
+
+    {
+      "name": "testedeferfrf",
+      "last_name": "Manolito",
+      "email": " ",
+      "password": "test123456a",
+      "confirm": "test123456a"
+    },
+
+    {
+      "name": "testeeffrf",
+      "last_name": "Manolito",
+      "email": "dfrggtg ",
+      "password": "test123456a",
+      "confirm": "test123456a"
+    },
+
+    {
+      "name": "test12222",
+      "last_name": "Manolito",
+      "email": "r@gmail.com",
+      "password": "test123456a",
+      "confirm": "test123456a"
+    },
+
+    {
+      "name": "tesdwedeededt",
+      "last_name": "Manolito",
+      "email": "manu@gmail.com",
+      "password": " ",
+      "confirm": "test123456a"
+    },
+
+    {
+      "name": "testdwedeeded",
+      "last_name": "Manolito",
+      "email": "manu@gmail.com",
+      "password": "aa",
+      "confirm": "test123456a"
+    },
+
+    {
+      "name": "teswdeddedt",
+      "last_name": "Manolito",
+      "email": "manu@gmail.com",
+      "password": "test123456a",
+      "confirm": " "
+    }
+  ]
+}

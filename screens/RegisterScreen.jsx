@@ -86,7 +86,7 @@ export default function RegisterScreen() {
         style={tw`border border-gray-400 rounded-md w-80 px-4 py-2 mb-4`}
       />
       <TextInput
-        placeholder="Correo electrónico"
+        placeholder="Correo"
         value={email}
         onChangeText={(text) => setEmail(text)}
         style={tw`border border-gray-400 rounded-md w-80 px-4 py-2 mb-4`}
