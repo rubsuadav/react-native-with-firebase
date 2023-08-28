@@ -2,15 +2,15 @@
 
 describe("render the register screen", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:8081/");
+    cy.visit("http://127.0.0.1:5000/");
   });
 
   it("shouldn't be register", () => {
-    cy.get(".css-textHasAncestor-1jxf684")
+    cy.get(".css-1jxf684")
       .should("be.visible")
       .click()
       .then(() => {
-        cy.get(".css-text-146c3p1").should("be.visible");
+        cy.get(".css-146c3p1").should("be.visible");
       });
     cy.fixture("users.json").then((datos) => {
       datos.users.forEach((user) => {
@@ -21,10 +21,10 @@ describe("render the register screen", () => {
           .eq(-1)
           .type(user.password, { force: true });
         cy.get('input[placeholder="Confirmar contraseña"]').type(user.confirm);
-        cy.get(".css-view-175oi2r").then(() => {
-          cy.get("button").eq(1).click().wait(1000);
+        cy.get(".css-175oi2r").then(() => {
+          cy.get("button").eq(1).click().wait(2000);
           cy.get("button").eq(-1).click();
-          cy.get(".css-textHasAncestor-1jxf684").click();
+          cy.get(".css-1jxf684").click();
         });
       });
     });
