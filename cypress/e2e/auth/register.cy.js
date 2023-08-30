@@ -1,11 +1,11 @@
 /// <reference types="cypress" />
 
-describe("render the register screen", () => {
+describe("render the register and login screen", () => {
   beforeEach(() => {
     cy.visit("http://127.0.0.1:5000/");
   });
 
-  it("should be register", () => {
+  it("should be register/login/logout", () => {
     cy.get(".css-1jxf684")
       .should("be.visible")
       .click()
@@ -24,16 +24,23 @@ describe("render the register screen", () => {
         .type("password123", { force: true });
       cy.get('input[placeholder="Confirmar contraseña"]').type("password123");
       cy.get(".css-175oi2r").then(() => {
-        cy.get("button").eq(1).click().wait(2000);
+        cy.get("button").eq(1).click().wait(3000);
       });
+
+      //logout section
+      cy.get('div[class="css-146c3p1"]')
+        .eq(0)
+        .click()
+        .then(() => {
+          cy.get('div[class="css-146c3p1"]').eq(1).click().wait(2000);
+        });
+      cy.get('button[class="swal2-confirm swal2-styled"]').click();
+      cy.wait(1000);
+
+      //login section
+      cy.get('input[placeholder="Correo electrónico"]').type(email);
+      cy.get('input[placeholder="Contraseña"]').type("password123");
+      cy.get("button").click().wait(3000);
     });
-    cy.get('div[class="css-146c3p1"]')
-      .eq(0)
-      .click()
-      .then(() => {
-        cy.get('div[class="css-146c3p1"]').eq(1).click();
-      });
-    cy.get('button[class="swal2-confirm swal2-styled"]').click();
-    cy.wait(1000);
   });
 });
