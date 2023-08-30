@@ -30,12 +30,19 @@
       "enabled": true,
       "port": 8000
     },
-    "singleProjectMode": true
+    "singleProjectMode": true,
+    "pubsub": {
+      "port": 8085
+    }
   },
   "firestore": {
     "rules": "firestore.rules"
   },
   "storage": {
     "rules": "storage.rules"
+  },
+  "extensions": {
+    "send-message": "twilio/send-message@0.2.1",
+    "firestore-stripe-payments": "stripe/firestore-stripe-payments@0.3.4"
   }
 }
