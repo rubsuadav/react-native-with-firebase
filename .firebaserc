@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "subcripciones-9d96d"
+  },
+  "targets": {},
+  "etags": {
+    "subcripciones-9d96d": {
+      "extensionInstances": {
+        "send-message": "d6dfde70c7a70b708086e629c8c5855ac093861d6dc1b931d4925b74eccea2f0",
+        "firestore-stripe-payments": "b9c86350b721ea4c4347da4dad2494487b316d7a84cb0111f9796832fe8c7b15"
+      }
+    }
   }
 }
