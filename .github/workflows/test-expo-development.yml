@@ -10,9 +10,9 @@ jobs:
     strategy:
       matrix:
         node: [19]
-    name: E2E on node ${{ matrix.node }} 🤖
+    name: E2E on node ${{ matrix.node }}
     steps:
-      - name: Setup Node 🤖
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
