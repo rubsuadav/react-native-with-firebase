@@ -10,9 +10,9 @@ jobs:
     strategy:
       matrix:
         node: [19]
-    name: E2E on node ${{ matrix.node }}
+    name: E2E on node ${{ matrix.node }} 🤖
     steps:
-      - name: Setup Node
+      - name: Setup Node 🤖
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
@@ -23,9 +23,12 @@ jobs:
         run: npm install -g firebase-tools
       - name: Install dependencies 🥳
         run: npm ci && npm run predeploy
+      - name: Login on Firebase 🔑
+        run: firebase login:ci --no-localhost --token ${{ secrets.FIREBASE_TOKEN }}
       - name: Cypress run 📀
         uses: cypress-io/github-action@v5
         with:
+          env: ${{ secrets.FIREBASE_API_KEY }}
           start: npm run fb:emulators
           wait-on: http://localhost:5000
           record: true
