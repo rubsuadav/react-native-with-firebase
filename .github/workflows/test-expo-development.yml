@@ -22,7 +22,7 @@ jobs:
         with:
           args: emulators:start
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
       - name: Cypress run 📀
         uses: cypress-io/github-action@v5
         with:
