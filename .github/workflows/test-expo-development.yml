@@ -17,11 +17,8 @@ jobs:
         run: npm install -g firebase-tools
       - name: Install dependencies 🥳
         run: npm ci && npm run predeploy
-      - name: Cache Cypress binary and dependencies 📦
-        uses: actions/cache@v2
-        with:
-          path: /github/home/.cache/Cypress
-          key: ${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}
+      - name: Install Cypress 🔨
+        run: npx cypress install
       - name: Firebase Login and run emulators with Cypress (tests E2E)🔑
         uses: w9jds/firebase-action@master
         with:
