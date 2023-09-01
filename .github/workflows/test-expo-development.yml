@@ -17,10 +17,12 @@ jobs:
         run: npm install -g firebase-tools
       - name: Install dependencies 🥳
         run: npm ci && npm run predeploy
-      - name: Firebase Login 🔑
+      - name: Firebase Login and run emulators🔑
         uses: w9jds/firebase-action@master
         with:
-          args: login:ci --no-localhost --token "${{ secrets.FIREBASE_TOKEN }}"
+          args: emulators:start
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       - name: Cypress run 📀
         uses: cypress-io/github-action@v5
         with:
