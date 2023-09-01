@@ -17,14 +17,10 @@ jobs:
         run: npm install -g firebase-tools
       - name: Install dependencies 🥳
         run: npm ci && npm run predeploy
-      - name: Deploy to Firebase Hosting 🚀
-        uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Firebase Login 🔑
+        uses: w9jds/firebase-action@master
         with:
-          repoToken: '${{ secrets.FIREBASE_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SUBCRIPCIONES_9D96D }}'
-          channelId: live
-          projectId: subcripciones-9d96d
-
+          args: login:ci --no-localhost --token "${{ secrets.FIREBASE_TOKEN }}"
       - name: Cypress run 📀
         uses: cypress-io/github-action@v5
         with:
