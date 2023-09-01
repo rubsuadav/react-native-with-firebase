@@ -17,14 +17,15 @@ jobs:
         run: npm install -g firebase-tools
       - name: Install dependencies 🥳
         run: npm ci && npm run predeploy
-      - name: Install Cypress 🔨
-        run: npm install -g cypress
-
+      - name: Download Cypress binary if missing 📦
+        run: |
+          if [ ! -f /github/home/.cache/Cypress/12.17.4/Cypress/Cypress ]; then
+            wget https://download.cypress.io/desktop/2.0.7?platform=linux -O /github/home/.cache/Cypress/12.17.4/Cypress.zip
+            unzip -d /github/home/.cache/Cypress/12.17.4 /github/home/.cache/Cypress/12.17.4/Cypress.zip
+          fi
       - name: Firebase Login and run emulators with Cypress (tests E2E)🔑
-        uses: cypress-io/github-action@v5
+        uses: w9jds/firebase-action@master
+        with:
+          args: emulators:exec 'npm test'
         env:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-        with:
-          start: npm run fb:emulators
-          wait-on: http://localhost:5000
-          record: true
