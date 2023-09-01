@@ -10,7 +10,7 @@
     "predeploy": "npx expo export",
     "fb:emulators": "firebase emulators:start",
     "deploy": "npm run predeploy && firebase deploy --only hosting",
-    "test": "cypress run --headed --browser electron",
+    "test": "npx cypress run --headed --browser electron",
     "cy:open": "cypress open"
   },
   "dependencies": {
