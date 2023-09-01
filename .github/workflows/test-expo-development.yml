@@ -18,7 +18,7 @@ jobs:
       - name: Install dependencies 🥳
         run: npm ci && npm run predeploy
       - name: Install Cypress 🔨
-        run: npx cypress install
+        run: npm install -g cypress
       - name: Firebase Login and run emulators with Cypress (tests E2E)🔑
         uses: w9jds/firebase-action@master
         with:
