@@ -7,24 +7,18 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [19]
-    name: E2E on node ${{ matrix.node }}
+    name: E2E testing with Cypress
     steps:
       - name: Setup Node
         uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-      - run: node -v
       - name: Checkout code 🔎
         uses: actions/checkout@v3
       - name: Install Firebase CLI 🥳
         run: npm install -g firebase-tools
       - name: Install dependencies 🥳
         run: npm ci && npm run predeploy
-      - name: Login on Firebase 🔑
-        run: firebase login:ci --no-localhost --token ${{ secrets.FIREBASE_TOKEN }}
+      - name: Firebase Login 🔑
+        run: echo ${{ secrets.FIREBASE_TOKEN }} | firebase login:ci --no-localhost
       - name: Cypress run 📀
         uses: cypress-io/github-action@v5
         with:
@@ -32,4 +26,3 @@ jobs:
           start: npm run fb:emulators
           wait-on: http://localhost:5000
           record: true
-          tag: node-${{ matrix.node }}
