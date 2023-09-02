@@ -8,7 +8,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "predeploy": "npx expo export",
-    "fb:emulators": "firebase emulators:start",
+    "fb:emulators": "export GCP_SA_KEY=${GCP_SA_KEY} && firebase emulators:start",
     "deploy": "npm run predeploy && firebase deploy --only hosting",
     "test": "npx cypress run --headed --browser electron",
     "cy:open": "cypress open"
