@@ -19,12 +19,11 @@ jobs:
         run: npm ci && npm run predeploy
       - name: Download Cypress binary if missing 📦
         run: |
-          CYPRESS_VERSION="2.0.7"
           CACHE_DIR="$HOME/.cache/Cypress/12.17.4"
           CACHE_FILE="$CACHE_DIR/Cypress.zip"
           mkdir -p $CACHE_DIR
           if [ ! -f $CACHE_FILE ]; then
-            wget "https://download.cypress.io/desktop/$CYPRESS_VERSION?platform=linux" -O $CACHE_FILE
+            wget "https://download.cypress.io/desktop" -O $CACHE_FILE
             unzip -d $CACHE_DIR $CACHE_FILE
           fi
       - name: Firebase Login and run emulators with Cypress (tests E2E)🔑
