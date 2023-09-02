@@ -19,12 +19,15 @@ jobs:
         run: npm ci && npm run predeploy
       - name: Download Cypress binary if missing 📦
         run: |
-          CACHE_DIR="$HOME/.cache/Cypress/12.17.4/Cypress"
-          CACHE_FILE="$CACHE_DIR/Cypress.zip"
-          mkdir -p $CACHE_DIR
-          if [ ! -f $CACHE_FILE ]; then
-            wget "https://download.cypress.io/desktop" -O $CACHE_FILE
-            unzip -d $CACHE_DIR $CACHE_FILE
+          TEMP_DIR="$HOME/.cache/Cypress_temp"
+          FINAL_DIR="/github/home/.cache/Cypress/12.17.4/Cypress"
+          TEMP_FILE="$TEMP_DIR/Cypress.zip"
+          mkdir -p $TEMP_DIR
+          if [ ! -f $TEMP_FILE ]; then
+            wget "https://download.cypress.io/desktop?platform=linux" -O $TEMP_FILE
+            mkdir -p $FINAL_DIR
+            chmod -R 755 $FINAL_DIR  # Cambiar los permisos del directorio de destino
+            mv $TEMP_FILE $FINAL_DIR
           fi
       - name: Firebase Login and run emulators with Cypress (tests E2E)🔑
         uses: w9jds/firebase-action@master
