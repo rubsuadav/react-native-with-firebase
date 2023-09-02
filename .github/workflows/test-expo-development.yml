@@ -20,6 +20,7 @@ jobs:
       - name: Download Cypress binary if missing 📦
         run: |
           if [ ! -f /github/home/.cache/Cypress/12.17.4/Cypress/Cypress ]; then
+            mkdir -p /github/home/.cache/Cypress/12.17.4/Cypress
             wget https://download.cypress.io/desktop/2.0.7?platform=linux -O /github/home/.cache/Cypress/12.17.4/Cypress.zip
             unzip -d /github/home/.cache/Cypress/12.17.4 /github/home/.cache/Cypress/12.17.4/Cypress.zip
           fi
