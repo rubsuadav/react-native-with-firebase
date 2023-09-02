@@ -25,8 +25,8 @@ jobs:
           mkdir -p $TEMP_DIR
           if [ ! -f $TEMP_FILE ]; then
             wget "https://download.cypress.io/desktop?platform=linux" -O $TEMP_FILE
+            chmod -R 755 /github/home/.cache
             mkdir -p $FINAL_DIR
-            chmod -R 755 $FINAL_DIR  # Cambiar los permisos del directorio de destino
             mv $TEMP_FILE $FINAL_DIR
           fi
       - name: Firebase Login and run emulators with Cypress (tests E2E)🔑
