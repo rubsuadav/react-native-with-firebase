@@ -24,11 +24,7 @@ jobs:
           npm run predeploy
 
       - name: Firebase Login and run emulators🔑
-        uses: w9jds/firebase-action@master
-        with:
-          args: emulators:start &
-        env:
-          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+        run: firebase serve
 
       - name: Run Cypress tests 🚀
         uses: cypress-io/github-action@v6
