@@ -19,7 +19,7 @@ jobs:
         run: npm ci && npm run predeploy
       - name: Download Cypress binary if missing 📦
         run: |
-          CACHE_DIR="$HOME/.cache/Cypress/12.17.4"
+          CACHE_DIR="$HOME/.cache/Cypress/12.17.4/Cypress"
           CACHE_FILE="$CACHE_DIR/Cypress.zip"
           mkdir -p $CACHE_DIR
           if [ ! -f $CACHE_FILE ]; then
