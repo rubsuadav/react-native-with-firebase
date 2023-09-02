@@ -23,10 +23,14 @@ jobs:
           npm ci
           npm run predeploy
 
-      - name: Firebase Login and run emulators with Cypress (tests E2E)🔑
-        uses: cypress-io/github-action@v6
+      - name: Firebase Login and run emulators🔑
+        uses: w9jds/firebase-action@master
+        with:
+          args: emulators:start &
         env:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Run Cypress tests 🚀
+        uses: cypress-io/github-action@v6
         with:
-          start: npm run fb:emulators
-          wait-on: "http://localhost:5000"
+          start: npm test
