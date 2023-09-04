@@ -9,6 +9,7 @@
     "web": "expo start --web",
     "predeploy": "npx expo export",
     "fb:emulators": "firebase emulators:start",
+    "serve": "export GOOGLE_APPLICATION_CREDENTIALS =${GOOGLE_APPLICATION_CREDENTIALS} && firebase emulators:exec 'npm run predeploy'",
     "deploy": "npm run predeploy && firebase deploy --only hosting",
     "test": "npx cypress run --headed --browser electron",
     "cy:open": "cypress open"

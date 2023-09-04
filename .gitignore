@@ -16,6 +16,7 @@ screenshots/
 videos/
 .vscode/
 *.log
+serviceAccount.json
 
 # macOS
 .DS_Store
