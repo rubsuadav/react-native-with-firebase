@@ -23,4 +23,3 @@ jobs:
         with:
           start: firebase emulators:exec 'npm run predeploy' --token ${{ secrets.FIREBASE_TOKEN }}
           wait-on: "http://localhost:5000"
-          record: true
