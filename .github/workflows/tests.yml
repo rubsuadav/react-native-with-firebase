@@ -1,0 +1,26 @@
+name: Tests CI 😁
+on:
+  push:
+    branches: ["master", "testing"]
+  pull_request:
+    branches: ["master"]
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    name: E2E testing with Cypress
+    steps:
+      - name: Checkout code 🔎
+        uses: actions/checkout@v3
+
+      - name: Install Firebase CLI 🥳
+        run: npm install -g firebase-tools
+
+      - name: Install dependencies 🥳
+        run: npm ci && npm run predeploy
+
+      - name: Firebase Login and run emulators with Cypress (tests E2E)🔑
+        uses: cypress-io/github-action@v5
+        with:
+          start: firebase emulators:exec 'npm run predeploy' --token ${{ secrets.FIREBASE_TOKEN }}
+          wait-on: "http://localhost:5000"
+          record: true
