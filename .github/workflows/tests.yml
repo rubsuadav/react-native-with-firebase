@@ -23,5 +23,5 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         with:
-          start: firebase emulators:exec 'npm run predeploy' --token ${{ secrets.FIREBASE_TOKEN }}
+          start: npm run serve
           wait-on: "http://localhost:5000"
