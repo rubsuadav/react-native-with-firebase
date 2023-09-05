@@ -9,24 +9,8 @@
     },
 
     {
-      "name": "test",
-      "last_name": "Manolito",
-      "email": "test@gmail.com",
-      "password": "test123456a",
-      "confirm": "test123456a"
-    },
-
-    {
       "name": "testdfrgrtgtg",
       "last_name": " ",
-      "email": "manu@gmail.com",
-      "password": "test123456a",
-      "confirm": "test123456a"
-    },
-
-    {
-      "name": "testdefrfr",
-      "last_name": "test",
       "email": "manu@gmail.com",
       "password": "test123456a",
       "confirm": "test123456a"

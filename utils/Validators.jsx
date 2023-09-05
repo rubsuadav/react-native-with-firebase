@@ -4,14 +4,14 @@ export function validate({ name, lastName, email, password, selectedRole }) {
     case !name:
       errors.nameError = "El nombre es requerido";
       break;
-    case name.length < 6:
-      errors.nameError = "El nombre debe tener al menos 6 caracteres";
+    case name.length < 4:
+      errors.nameError = "El nombre debe tener al menos 4 caracteres";
       break;
     case !lastName:
       errors.lastNameError = "El apellido es requerido";
       break;
-    case lastName.length < 6:
-      errors.lastNameError = "El apellido debe tener al menos 6 caracteres";
+    case lastName.length < 4:
+      errors.lastNameError = "El apellido debe tener al menos 4 caracteres";
       break;
     case !email:
       errors.emailError = "El correo electrónico es requerido";

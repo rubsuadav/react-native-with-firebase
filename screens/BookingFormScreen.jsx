@@ -79,7 +79,7 @@ export default function BookingFormScreen({ route }) {
           new Date().getDate()
         } a las ${time}`,
       });
-      swal.isConfirmed && navigation.goBack() && window.location.reload();
+      swal.isConfirmed && window.location.reload();
     } catch (error) {
       setError(error.message);
     }

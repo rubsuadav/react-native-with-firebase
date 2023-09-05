@@ -24,7 +24,7 @@ export const FIREBASE_AUTH = getAuth(FIREBASE_APP);
 export const FIREBASE_DB = getFirestore(FIREBASE_APP);
 export const FIREBASE_STORAGE = getStorage(FIREBASE_APP);
 
-if (location.hostname === "localhost") {
+if (location.hostname === "localhost" && location.port !== "8081") {
   const functions = getFunctions(FIREBASE_APP);
   connectFirestoreEmulator(FIREBASE_DB, "127.0.0.1", 8080);
   connectStorageEmulator(FIREBASE_STORAGE, "127.0.0.1", 9199);

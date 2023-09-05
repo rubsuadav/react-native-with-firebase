@@ -37,11 +37,11 @@ export default function BookingScreen() {
         setTables(tables);
       }
     );
-    dropBookingsDaily();
     return () => unsubscribe();
   }, []);
 
   useMemo(async () => {
+    await dropBookingsDaily();
     await updateTablesDueToBookings();
     await canBookTables({ setCanBook, setBookings });
   }, []);

@@ -246,7 +246,7 @@ export async function canBookTables({ setCanBook, setBookings }) {
 
 //------------------BOOKINGS FUNCTIONS------------------//
 
-export function dropBookingsDaily() {
+export async function dropBookingsDaily() {
   setInterval(async () => {
     const bookingRef = collection(FIREBASE_DB, "bookings");
     const querySnapshot = await getDocs(bookingRef);
