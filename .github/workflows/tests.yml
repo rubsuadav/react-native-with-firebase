@@ -18,13 +18,16 @@ jobs:
       - name: Install dependencies 🥳
         run: npm ci && npm run predeploy
 
-      - name: Set up Firebase credentials 🔑
-        run: echo "$GOOGLE_APPLICATION_CREDENTIALS" > ./serviceAccountKey.json
+      - id: "auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v0"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
 
-      - name: Firebase Login and run emulators with Cypress (tests E2E) 🧪
+      - name: Firebase Login and run emulators with Cypress (tests E2E)🔑
         uses: cypress-io/github-action@v5
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         with:
-          start: npm run serve
+          start: firebase emulators:exec 'npm run predeploy'
           wait-on: "http://localhost:5000"
