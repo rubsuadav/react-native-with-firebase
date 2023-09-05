@@ -4,6 +4,9 @@ on:
     branches: ["master", "testing"]
   pull_request:
     branches: ["master"]
+
+env:
+  EXPO_PUBLIC_API_KEY: ${{secrets.FIREBASE_API_KEY}}
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
