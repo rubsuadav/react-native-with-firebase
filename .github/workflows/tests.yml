@@ -21,5 +21,5 @@ jobs:
       - name: Firebase Login and run emulators with Cypress (tests E2E)🔑
         uses: cypress-io/github-action@v5
         with:
-          start: firebase emulators:exec --only auth, firestore, hosting --token ${{ secrets.FIREBASE_TOKEN }}
+          start: firebase emulators:exec --only ["auth", "firestore", "hosting"] --token ${{ secrets.FIREBASE_TOKEN }}
           wait-on: "http://localhost:5000"
