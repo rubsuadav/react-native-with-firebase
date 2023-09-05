@@ -5,6 +5,8 @@ Deploys to Firebase Hosting:
 
 ## FOR SUBCRIPTIONS' IMPLEMENTANTION
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c06f896ede2d42b8809488e98a4c68b2)](https://app.codacy.com/gh/rubsuadav/react-native-with-firebase?utm_source=github.com&utm_medium=referral&utm_content=rubsuadav/react-native-with-firebase&utm_campaign=Badge_Grade)
+
 https://github.com/invertase/stripe-firebase-extensions/blob/next/firestore-stripe-payments/POSTINSTALL.md
 
 ## FOR FIREBASE EMULATORS' IMPLEMENTANTION
