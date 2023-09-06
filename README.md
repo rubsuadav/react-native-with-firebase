@@ -5,9 +5,9 @@ Deploys to Firebase Hosting:
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c06f896ede2d42b8809488e98a4c68b2)](https://app.codacy.com/gh/rubsuadav/react-native-with-firebase?utm_source=github.com&utm_medium=referral&utm_content=rubsuadav/react-native-with-firebase&utm_campaign=Badge_Grade)
 
-https://github.com/rubsuadav/react-native-with-firebase/actions/workflows/tests.yml/badge.svg?event=push
-https://github.com/rubsuadav/react-native-with-firebase/actions/workflows/firebase-hosting-merge.yml/badge.svg?event=push
-https://github.com/rubsuadav/react-native-with-firebase/actions/workflows/analysis.yml/badge.svg?event=push
+![Test Badge](https://github.com/rubsuadav/react-native-with-firebase/actions/workflows/tests.yml/badge.svg)
+![Hosting Badge](https://github.com/rubsuadav/react-native-with-firebase/actions/workflows/firebase-hosting-merge.yml/badge.svg)
+![Codacy Badge](https://github.com/rubsuadav/react-native-with-firebase/actions/workflows/analysis.yml/badge.svg)
 
 ## FOR SUBCRIPTIONS' IMPLEMENTANTION
 
