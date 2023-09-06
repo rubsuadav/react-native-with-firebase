@@ -7,9 +7,6 @@ describe("render the chat screen", () => {
   });
 
   it("should can chat with the users", () => {
-    cy.get('input[placeholder="Correo electrónico"]').type("prueba@gmail.com");
-    cy.get('input[placeholder="Contraseña"]').type("prueba");
-    cy.get("button").click().wait(3000);
     cy.wait(1000);
     cy.get('div[class="css-146c3p1"]').eq(2).click().wait(1000);
     cy.get('div[class="css-146c3p1"]').eq(-2).click().wait(1000);
