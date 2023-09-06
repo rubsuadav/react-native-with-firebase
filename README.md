@@ -6,7 +6,9 @@ Deploys to Firebase Hosting:
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c06f896ede2d42b8809488e98a4c68b2)](https://app.codacy.com/gh/rubsuadav/react-native-with-firebase?utm_source=github.com&utm_medium=referral&utm_content=rubsuadav/react-native-with-firebase&utm_campaign=Badge_Grade)
 
 ![Test Badge](https://github.com/rubsuadav/react-native-with-firebase/actions/workflows/tests.yml/badge.svg)
+
 ![Hosting Badge](https://github.com/rubsuadav/react-native-with-firebase/actions/workflows/firebase-hosting-merge.yml/badge.svg)
+
 ![Codacy Badge](https://github.com/rubsuadav/react-native-with-firebase/actions/workflows/analysis.yml/badge.svg)
 
 ## FOR SUBCRIPTIONS' IMPLEMENTANTION
@@ -53,21 +55,21 @@ npm run deploy
 
 ## For testing the app you must follow this steps:
 
-1. Check java version (with the last version of firebase emulators you must have java version >= 15, recommeded version 17):
+1.  Check java version (with the last version of firebase emulators you must have java version >= 15, recommeded version 17):
 
 ```bash
 java -version
 ```
 
-2. If you have a java version < 15 go to this link and download the executable: (if you have a java version >= 15 you can skip the folowwing steps and go to step 6)
+2.  If you have a java version < 15 go to this link and download the executable: (if you have a java version >= 15 you can skip the folowwing steps and go to step 6)
 
 ```bash
 https://www.oracle.com/java/technologies/downloads/#jdk17-windows
 ```
 
-3. Open the executable and follow the instructions to install the java version thats you choose.
+3.  Open the executable and follow the instructions to install the java version thats you choose.
 
-4. After instalation finish you must set the java version in your system variables:
+4.  After instalation finish you must set the java version in your system variables:
 
 ```bash
 Go to: Control Panel > System and Security > System > Advanced System Settings > Environment Variables > System Variables > Path
@@ -79,25 +81,25 @@ In path variable you must add the path of the java version that you installed an
 C:\Program Files\Java\jdk-17\bin
 ```
 
-5. Check that the java version is setted:
+5.  Check that the java version is setted:
 
 ```bash
 java -version
 ```
 
-6. Intall firebase CLI:
+6.  Intall firebase CLI:
 
 ```bash
 npm install -g firebase-tools
 ```
 
-7. Run the firebase emulators:
+7.  Run the firebase emulators:
 
 ```bash
 npm run fb:emulators
 ```
 
-8. When emulators are running you can run the tests:
+8.  When emulators are running you can run the tests:
 
 ```bash
 npm run test
@@ -105,7 +107,7 @@ npm run test
 
 # IF YOU HAVE A CACHED PROCESS USING THE EMULATOR'S PORT YOU CAN FOLLOW THIS STEPS FOR KILL IT:
 
-1. Open a cmd and find the process:
+1.  Open a cmd and find the process:
 
 ```bash
 netstat -ano | findstr :port-number
@@ -117,13 +119,13 @@ The output will be a line like this:
 TCP/UDP   IP:PORT (ORIGIN)  IP:PORT (DEST)  LISTENING  process-id
 ```
 
-2. Kill the process using the process-id:
+2.  Kill the process using the process-id:
 
 ```bash
 taskkill /PID process-id /F
 ```
 
-3. Check that the process is killed:
+3.  Check that the process is killed:
 
 ```bash
 netstat -ano | findstr: port-number
